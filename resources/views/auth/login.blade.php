@@ -3,7 +3,7 @@
 @section('content')
 <div class="login-box">
 	<div class="login-logo">
-    	<a href="{{ url('/auth/login') }}"><b>Login</b></a>
+    	<a href="{{ url('/login') }}"><b>Login</b></a>
     </div>
     
     <!-- 顯示驗證錯誤 -->
@@ -13,7 +13,7 @@
   	<div class="login-box-body">
     	<p class="login-box-msg">Sign in to start your session</p>
     	
-    	<form action="{{ url('/auth/login') }}" class="login-form" method="post">
+    	<form action="{{ url('/login') }}" class="login-form" method="post">
     		<input type="hidden" name="_token" value="{{ csrf_token() }}">
     		
     		<div class="form-group has-feedback">

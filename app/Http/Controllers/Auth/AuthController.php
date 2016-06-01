@@ -33,7 +33,7 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/workbench';
     
-    protected $loginPath = '/auth/login';
+    protected $loginPath = '/login';
     
 //     protected $redirectAfterLogout = '/auth/login'
 
@@ -80,6 +80,6 @@ class AuthController extends Controller
     public function logout()
     {
     	Auth::logout();
-    	return Redirect::to('auth/login');
+    	return Redirect::to('login');
     }
 }
