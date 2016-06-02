@@ -17,11 +17,11 @@ Route::get('logout', 'Auth\AuthController@logout');
 Route::get('password/email', 'Auth\PasswordController@getEmail');
 Route::post('password/email', 'Auth\PasswordController@postEmail');
 
-// // Password reset routes...
-// Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-// Route::post('password/reset', 'Auth\PasswordController@postReset');
+// Password reset routes...
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset');
 
-// // Registration routes...
-// Route::get('auth/register', 'Auth\AuthController@getRegister');
-// Route::post('auth/register', 'Auth\AuthController@postRegister');
+// Registration routes...
+// Route::get('register', 'Auth\AuthController@getRegister');
+// Route::post('register', 'Auth\AuthController@postRegister');
 

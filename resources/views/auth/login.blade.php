@@ -46,7 +46,7 @@
         	Google+</a>
     	</div> 
     	
-    	<a href="#">I forgot my password</a><br>
+    	<a href="{{ url('/password/email') }}">I forgot my password</a><br>
     	<a href="register.html" class="text-center">Register a new membership</a>
     </div>
 </div>

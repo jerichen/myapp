@@ -20,7 +20,8 @@ class PasswordController extends Controller
 
     use ResetsPasswords;
     
-    protected $redirectTo = '/';
+    protected $redirectTo = '/workbench';
+    
     protected $subject = '重設密碼';
 
     /**
