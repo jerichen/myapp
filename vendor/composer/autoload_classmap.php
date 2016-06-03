@@ -480,6 +480,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'PermissionRoleTableSeeder' => $baseDir . '/database/seeds/PermissionRoleTableSeeder.php',
     'PermissionsTableSeeder' => $baseDir . '/database/seeds/PermissionsTableSeeder.php',
     'RoleUserTableSeeder' => $baseDir . '/database/seeds/RoleUserTableSeeder.php',
     'RolesTableSeeder' => $baseDir . '/database/seeds/RolesTableSeeder.php',

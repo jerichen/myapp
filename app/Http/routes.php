@@ -6,6 +6,7 @@ Route::get('/', function () {
 // 登入後
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('workbench','WorkbenchController@index');
+	Route::get('permission','PermissionController@index');
 });
 
 // Authentication routes...

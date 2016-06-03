@@ -15,14 +15,17 @@ class RolesTableSeeder extends Seeder
             [
                 'id'   => 1,
                 'name' => 'superuser',
+            	'lable' => 'The admin of the site',
             ],
             [
                 'id'   => 2,
                 'name' => 'admin',
+            	'lable' => 'The admin of the site',
             ],
             [
                 'id'   => 3,
                 'name' => 'user',
+            	'label' => 'The user of the site',
             ],
         ]);
     }
