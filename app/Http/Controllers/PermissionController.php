@@ -12,7 +12,9 @@ class PermissionController extends Controller
 {
 	public function index()
 	{
-		$user = Auth::loginUsingId(1);
+		$user = Auth::user();
+		$user = Auth::loginUsingId($user->id);
+
 		return view('test',compact('user'));
 	}
 }
