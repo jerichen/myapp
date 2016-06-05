@@ -7,6 +7,9 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('workbench','WorkbenchController@index');
 	Route::get('permission','PermissionController@index');
+	
+	# sub
+	Route::get('workbench/{sub?}','SubController@page');
 });
 
 // Authentication routes...
