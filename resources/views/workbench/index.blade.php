@@ -4,7 +4,7 @@
 <!-- Main Header -->
 <header class="main-header">
 	<!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{ url('/workbench') }}" class="logo">
 	    <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>A</b>LT</span>
     <!-- logo for regular state and mobile devices -->
@@ -64,8 +64,43 @@
 		</div>
 		
 		<ul class="sidebar-menu">
+		
+			<li class="header">MAIN NAVIGATION {{ $menuData->url }}</li>
+        	@if(count($menus))
+        		@foreach($menus as $menu)
+        		
+        		@if($menu->url == $menuData->url)
+        		<li class="active">
+        		@else
+        		<li>
+        		@endif
+        		
+        			<a href="{{ $menu->url }}">
+	        			<i class="{{ $menu->icon }}"></i> 
+	        			<span>{{ $menu->name }}</span>
+	        			@if($menu->has_sub == 1)
+		        		<i class="fa fa-angle-left pull-right"></i>
+		        		@endif
+        			</a>
+        			
+        			@if($menu->has_sub == 1)
+        			<ul class="treeview-menu">
+        				@foreach($menu->sub as $sub)
+        				<li>
+        					<a href="{{ $sub->url }}">
+			        			<i class="{{ $sub->icon }}"></i> 
+			        			<span>{{ $sub->name }}</span>
+		        			</a>
+        				</li>
+        				@endforeach
+	          		</ul>
+        			@endif
+        			
+        		</li>
+        		@endforeach
+        	@endif
+        	
 			<li class="header">MAIN NAVIGATION</li>
-			
 			<li class="active treeview">
 				<a href="#">
             		<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
@@ -102,36 +137,6 @@
         		<i class="fa fa-book"></i> 
         		<span>Documentation</span></a>
         	</li>
-        	
-        	
-        	<li class="header">MAIN NAVIGATION</li>
-        	@if(count($menus))
-        		@foreach($menus as $menu)
-        		<li>
-        			<a href="{{ $menu->url }}">
-	        			<i class="{{ $menu->icon }}"></i> 
-	        			<span>{{ $menu->name }}</span>
-	        			@if($menu->has_sub == 1)
-		        		<i class="fa fa-angle-left pull-right"></i>
-		        		@endif
-        			</a>
-        			
-        			@if($menu->has_sub == 1)
-        			<ul class="treeview-menu">
-        				@foreach($menu->sub as $sub)
-        				<li>
-        					<a href="{{ $sub->url }}">
-			        			<i class="{{ $sub->icon }}"></i> 
-			        			<span>{{ $sub->name }}</span>
-		        			</a>
-        				</li>
-        				@endforeach
-	          		</ul>
-        			@endif
-        			
-        		</li>
-        		@endforeach
-        	@endif
 		</ul>
     </section>
 </aside>

@@ -3,12 +3,12 @@
 @section('sub_content')
 <section class="content-header">
 	<h1>
-		{{ $sub }}
+		{{ $menuData->name }}
 		<small>Control panel</small>
     </h1>
     <ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-		<li class="active">{{ $sub }}</li>
+		<li class="active">{{ $menuData->name }}</li>
     </ol>
 </section>
 

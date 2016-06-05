@@ -9,7 +9,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('permission','PermissionController@index');
 	
 	# sub
-	Route::get('workbench/{sub?}','SubController@page');
+	Route::get('workbench/{sub?}','SubController@sub');
+	Route::get('workbench/{sub}/{parent?}','SubController@parent');
 });
 
 // Authentication routes...
