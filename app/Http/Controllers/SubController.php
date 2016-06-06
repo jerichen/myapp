@@ -8,11 +8,13 @@ use App\Http\Requests;
 
 use App\Menu;
 
+use App\Role;
+
 class SubController extends WorkbenchController
 {
 	public function getMenuDataByUrl()
 	{
-		$url = $_SERVER["REQUEST_URI"];
+		$url = strtok($_SERVER['REQUEST_URI'],'?');
 		$menu = Menu::where('url', $url)->first();
 
 		return $menu;
@@ -35,8 +37,29 @@ class SubController extends WorkbenchController
 		$user = $this->user;
 		$menus = $this->menus;
 		$menuData = $this->getMenuDataByUrl();
-	
+		
+		$result['user'] = $user;
+		$result['menus'] = $menus;
+		$result['menuData'] = $menuData;
+		
+		switch ($parent){
+			case 'role';
+				$res = $this->role($result);
+			break;
+		}
+
+		# TODO
+// 		return $res['menuData'];
+		
 		$return = 'workbench.' . $sub . '.' . $parent;
-		return view($return,compact('user','menus','menuData'));
+		return view($return,$res);
+	}
+	
+	public function role($result)
+	{
+		$roles = Role::paginate(1);
+		$result['roles'] = $roles;
+		
+		return $result;
 	}
 }

@@ -65,11 +65,11 @@
 		
 		<ul class="sidebar-menu">
 		
-			<li class="header">MAIN NAVIGATION {{ $menuData->url }}</li>
+			<li class="header">MAIN NAVIGATION</li>
         	@if(count($menus))
         		@foreach($menus as $menu)
         		
-        		@if($menu->url == $menuData->url)
+        		@if(!empty($menuData) && ($menu->id == $menuData->parent_id))
         		<li class="active">
         		@else
         		<li>
