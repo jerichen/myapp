@@ -17,12 +17,67 @@
 	<!-- Main row -->
     <div class="row">
     	<!-- Left col -->
-		<section class="col-lg-7 connectedSortable">
-		
-		@foreach ($roles as $role)
-	        {{ $role->name }}
-	    @endforeach
-	    
+		<section class="col-lg-12 connectedSortable">
+			<div class="col-md-12">
+				<div class="box">
+					<div class="box-header with-border">
+              		    <h3 class="box-title">{{ $menuData->name }} Table</h3>
+              		    
+              		    <div class="box-tools">
+	                		<div class="input-group input-group-sm" style="width: 150px;">
+		                  		<input type="text" name="search" class="form-control pull-right" placeholder="Search">
+		                  		<div class="input-group-btn">
+		                    		<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+		                  		</div>
+	                		</div>
+              			</div>
+            		</div>
+					<div class="box-body">
+						<table class="table table-striped">
+							<tr>
+								<th> # </th>
+								<th>Name</th>
+							</tr>
+							@foreach($roles as $key => $role)
+							<tr>
+								<td>{{ $key + 1 }}</td>
+								<td>{{ $role->name }}</td>
+							</tr>
+							@endforeach
+						</table>
+					</div>
+					<div class="box-footer clearfix">
+						<div class="col-sm-6">
+							<div class="dataTables_info" id="user-role-list_info" role="status" aria-live="polite">
+							@if($roles->currentPage() == 1)
+							Showing 1 to {{ $roles->perPage() }} of {{ $roles->total() }} entries
+							@endif
+							
+							@if($roles->currentPage() != 1)
+							Showing {{ ($roles->currentPage() -1 + $roles->perPage()) }} to 
+							
+							@if($roles->currentPage() -1 + $roles->perPage() > $roles->total())
+							{{ $roles->total() }} 
+							@else
+							{{ $roles->currentPage() - 1 + $roles->perPage() }} 
+							@endif
+							
+							of {{ $roles->total() }} entries
+							@endif
+							</div>
+						</div>
+						
+		            	<ul class="pagination pagination-sm no-margin pull-right">
+			                <li><a href="{{ $roles->previousPageUrl() }}">&laquo;</a></li>
+			                @for($i=1;$i<=ceil($roles->total() / $roles->perPage());$i++)
+			                <li><a href="{{ $roles->url($i) }}">{{ $i }}</a></li>
+			                @endfor
+			                <li><a href="{{ $roles->nextPageUrl() }}">&raquo;</a></li>
+		              	</ul>
+	            	</div>
+            
+				</div>
+			</div>
 		</section>
     </div>
 </section>

@@ -49,7 +49,8 @@ class SubController extends WorkbenchController
 		}
 
 		# TODO
-// 		return $res['menuData'];
+// 		var_dump($res['roles']->previousPageUrl());exit;
+// 		return $res['roles']->currentPage();
 		
 		$return = 'workbench.' . $sub . '.' . $parent;
 		return view($return,$res);
@@ -57,9 +58,8 @@ class SubController extends WorkbenchController
 	
 	public function role($result)
 	{
-		$roles = Role::paginate(1);
+		$roles = Role::paginate(50);
 		$result['roles'] = $roles;
-		
 		return $result;
 	}
 }
