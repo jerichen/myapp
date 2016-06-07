@@ -25,9 +25,9 @@
               		    
               		    <div class="box-tools">
 	                		<div class="input-group input-group-sm" style="width: 150px;">
-		                  		<input type="text" name="search" class="form-control pull-right" placeholder="Search">
+		                  		<input type="text" id="search" class="form-control pull-right" placeholder="Search">
 		                  		<div class="input-group-btn">
-		                    		<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+		                    		<button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
 		                  		</div>
 	                		</div>
               			</div>
@@ -75,10 +75,31 @@
 			                <li><a href="{{ $roles->nextPageUrl() }}">&raquo;</a></li>
 		              	</ul>
 	            	</div>
-            
 				</div>
 			</div>
 		</section>
     </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#search").on("keyup", function() {
+	    var value = $(this).val();
+
+	    $("table tr").each(function(index) {
+	        if (index !== 0) {
+	            $row = $(this);
+	            var id = $row.find("td:eq(1)").text();
+	            if (id.indexOf(value) !== 0) {
+	                $row.hide();
+	            }
+	            else {
+	                $row.show();
+	            }
+	        }
+	    });
+	});
+});	
+</script>
 @endsection
