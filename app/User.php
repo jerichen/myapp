@@ -38,11 +38,13 @@ class User extends Authenticatable
     
     	return !! $role->intersect($this->roles)->count();
     }
+    
     // 判斷使用者是否具有權限
     public function hasPermission($permission)
     {
     	return $this->hasRole($permission->roles);
     }
+    
     // 使用者分配角色
     public function assignRole($role)
     {
