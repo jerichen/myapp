@@ -36,12 +36,6 @@ class PermissionsTableSeeder extends Seeder
     				'menu_id' => 6,
     				'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
     			],
-    			[
-    				'name' => 'user.permission',
-    				'label' => 'Permissions',
-    				'menu_id' => 7,
-    				'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
-    			],
     	]);
     }
 }

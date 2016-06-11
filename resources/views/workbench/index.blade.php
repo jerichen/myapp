@@ -68,6 +68,7 @@
 			<li class="header">MAIN NAVIGATION</li>
         	@if(count($menus))
         		@foreach($menus as $menu)
+        		@can($menu->id,'view')
         		
         		@if(!empty($menuData) && ($menu->id == $menuData->parent_id))
         		<li class="active">
@@ -86,17 +87,21 @@
         			@if($menu->has_sub == 1)
         			<ul class="treeview-menu">
         				@foreach($menu->sub as $sub)
+        				@can($sub->id,'view')
         				<li>
         					<a href="{{ $sub->url }}">
 			        			<i class="{{ $sub->icon }}"></i> 
 			        			<span>{{ $sub->name }}</span>
 		        			</a>
         				</li>
+        				@endcan
         				@endforeach
 	          		</ul>
         			@endif
         			
         		</li>
+        		
+        		@endcan
         		@endforeach
         	@endif
         	
