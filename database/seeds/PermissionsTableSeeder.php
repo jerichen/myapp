@@ -13,20 +13,34 @@ class PermissionsTableSeeder extends Seeder
     {
     	DB::table('permissions')->insert([
     			[
-    				'name' => 'user.user.view',
-    				'label' => 'View user',
+	    			'name' => 'dashboard',
+	    			'label' => 'Dashboard',
+	    			'menu_id' => 1,
+	    			'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
     			],
     			[
-	    			'name' => 'user.user.create',
-	    			'label' => 'Create user',
+	    			'name' => 'user.user',
+	    			'label' => 'Users',
+	    			'menu_id' => 4,
+	    			'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
     			],
     			[
-	    			'name' => 'user.user.edit',
-	    			'label' => 'Update user',
+	    			'name' => 'user.user',
+	    			'label' => 'Users',
+	    			'menu_id' => 5,
+	    			'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
     			],
     			[
-    				'name' => 'user.user.delete',
-    				'label' => 'Delete user',
+    				'name' => 'user.role',
+    				'label' => 'Roles',
+    				'menu_id' => 6,
+    				'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
+    			],
+    			[
+    				'name' => 'user.permission',
+    				'label' => 'Permissions',
+    				'menu_id' => 7,
+    				'menu_permission' => 'a:4:{i:0;s:4:"view";i:1;s:6:"create";i:2;s:6:"update";i:3;s:6:"delete";}'
     			],
     	]);
     }

@@ -8,13 +8,23 @@ use App\Http\Requests;
 
 use Auth;
 
+use App\Menu;
+use function League\Flysystem\getMetadata;
+
 class PermissionController extends Controller
 {
+	public function getMenus()
+	{
+		# menus
+		$menus = Menu::where('parent_id', 0)->get();
+		return $menus;
+	}
+	
 	public function index()
 	{
-		$user = Auth::user();
-		$user = Auth::loginUsingId($user->id);
+		$user = Auth::loginUsingId(1);
+		$menus = $this->getMenus();
 
-		return view('test',compact('user'));
+		return view('test',compact('user','menus'));
 	}
 }

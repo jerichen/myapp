@@ -8,9 +8,9 @@ $baseDir = dirname($vendorDir);
 return array(
     'CreateMenusTable' => $baseDir . '/database/migrations/2016_06_04_093108_create_menus_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
-    'CreatePermissionRoleTable' => $baseDir . '/database/migrations/2016_06_03_135903_create_permission_role_table.php',
-    'CreatePermissionsTable' => $baseDir . '/database/migrations/2016_06_03_134439_create_permissions_table.php',
-    'CreateRoleUserRoleTable' => $baseDir . '/database/migrations/2016_06_03_135930_create_role_user_role_table.php',
+    'CreatePermissionRoleTable' => $baseDir . '/database/migrations/2016_06_11_073707_create_permission_role_table.php',
+    'CreatePermissionsTable' => $baseDir . '/database/migrations/2016_06_11_073428_create_permissions_table.php',
+    'CreateRoleUserTable' => $baseDir . '/database/migrations/2016_06_11_073737_create_role_user_table.php',
     'CreateRolesTable' => $baseDir . '/database/migrations/2016_06_03_134414_create_roles_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

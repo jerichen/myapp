@@ -3,11 +3,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('permission','PermissionController@index');
+
 // 登入後
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('workbench','WorkbenchController@index');
-	Route::get('permission','PermissionController@index');
-	
+
 	# sub
 	Route::get('workbench/{sub?}','SubController@sub');
 	Route::get('workbench/{sub}/{parent?}','SubController@parent');
