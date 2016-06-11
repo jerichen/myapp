@@ -10,6 +10,8 @@ use App\Menu;
 
 use App\Role;
 
+use Redirect;
+
 class SubController extends WorkbenchController
 {
 	public function getMenuDataByUrl()
@@ -27,6 +29,11 @@ class SubController extends WorkbenchController
     	$menus = $this->menus;
     	$menuData = $this->getMenuDataByUrl();
     	
+    	# 判斷是否可view
+    	if($this->user->cannot($menuData->id,'view')) {
+    		return redirect('workbench');
+    	}
+ 
     	$return = 'workbench.' . $sub;
     	return view($return,compact('user','menus','menuData'));
 	}
@@ -38,28 +45,32 @@ class SubController extends WorkbenchController
 		$menus = $this->menus;
 		$menuData = $this->getMenuDataByUrl();
 		
+		# 判斷是否可view
+		if($this->user->cannot($menuData->id,'view')) {
+			return redirect('workbench');
+		}
+
 		$result['user'] = $user;
 		$result['menus'] = $menus;
 		$result['menuData'] = $menuData;
-		
+
 		switch ($parent){
 			case 'role';
-				$res = $this->role($result);
+				$result['roles'] = $this->role();
 			break;
 		}
 
 		# TODO
 // 		var_dump($res['roles']->previousPageUrl());exit;
 // 		return $res['roles']->currentPage();
-		
+
 		$return = 'workbench.' . $sub . '.' . $parent;
-		return view($return,$res);
+		return view($return,$result);
 	}
 	
-	public function role($result)
+	public function role()
 	{
 		$roles = Role::paginate(50);
-		$result['roles'] = $roles;
-		return $result;
+		return $roles;
 	}
 }

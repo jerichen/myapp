@@ -12,6 +12,8 @@ use Redirect;
 
 use App\Menu;
 
+use App\Permission;
+
 class WorkbenchController extends Controller
 {
 	protected $user;
