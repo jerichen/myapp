@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Redirect;
+
 use App\Menu;
 
 use App\Role;
 
-use Redirect;
+use App\User;
 
 class SubController extends WorkbenchController
 {
@@ -56,7 +58,10 @@ class SubController extends WorkbenchController
 
 		switch ($parent){
 			case 'role';
-				$result['roles'] = $this->role();
+				$result['roles'] = $this->getRoles();
+			break;
+			case 'user';
+				$result['users'] = $this->getUsers();
 			break;
 		}
 
@@ -68,9 +73,15 @@ class SubController extends WorkbenchController
 		return view($return,$result);
 	}
 	
-	public function role()
+	public function getRoles()
 	{
 		$roles = Role::paginate(50);
 		return $roles;
+	}
+	
+	public function getUsers()
+	{
+		$users = User::paginate(50);
+		return $users;
 	}
 }
