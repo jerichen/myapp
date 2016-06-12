@@ -38,12 +38,14 @@
 								<th> # </th>
 								<th>Name</th>
 								<th>E-mail Address</th>
+								<th>Designation</th>
 							</tr>
-							@foreach($users as $key => $user)
+							@foreach($usersData as $key => $val)
 							<tr>
 								<td>{{ $key + 1 }}</td>
-								<td>{{ $user->name }}</td>
-								<td>{{ $user->email }}</td>
+								<td>{{ $val->name }}</td>
+								<td>{{ $val->email }}</td>
+								<td>{{ $val->role_name }}</td>
 							</tr>
 							@endforeach
 						</table>
@@ -51,30 +53,30 @@
 					<div class="box-footer clearfix">
 						<div class="col-sm-6">
 							<div class="dataTables_info" id="user-role-list_info" role="status" aria-live="polite">
-							@if($users->currentPage() == 1)
-							Showing 1 to {{ $users->perPage() }} of {{ $users->total() }} entries
+							@if($usersData->currentPage() == 1)
+							Showing 1 to {{ $usersData->perPage() }} of {{ $usersData->total() }} entries
 							@endif
 							
-							@if($users->currentPage() != 1)
-							Showing {{ ($users->currentPage() -1 + $users->perPage()) }} to 
+							@if($usersData->currentPage() != 1)
+							Showing {{ ($usersData->currentPage() -1 + $usersData->perPage()) }} to 
 							
-							@if($users->currentPage() -1 + $users->perPage() > $users->total())
-							{{ $users->total() }} 
+							@if($usersData->currentPage() -1 + $usersData->perPage() > $usersData->total())
+							{{ $usersData->total() }} 
 							@else
-							{{ $users->currentPage() - 1 + $users->perPage() }} 
+							{{ $usersData->currentPage() - 1 + $usersData->perPage() }} 
 							@endif
 							
-							of {{ $users->total() }} entries
+							of {{ $usersData->total() }} entries
 							@endif
 							</div>
 						</div>
 						
 		            	<ul class="pagination pagination-sm no-margin pull-right">
-			                <li><a href="{{ $users->previousPageUrl() }}">&laquo;</a></li>
-			                @for($i=1;$i<=ceil($users->total() / $users->perPage());$i++)
-			                <li><a href="{{ $users->url($i) }}">{{ $i }}</a></li>
+			                <li><a href="{{ $usersData->previousPageUrl() }}">&laquo;</a></li>
+			                @for($i=1;$i<=ceil($usersData->total() / $usersData->perPage());$i++)
+			                <li><a href="{{ $usersData->url($i) }}">{{ $i }}</a></li>
 			                @endfor
-			                <li><a href="{{ $users->nextPageUrl() }}">&raquo;</a></li>
+			                <li><a href="{{ $usersData->nextPageUrl() }}">&raquo;</a></li>
 		              	</ul>
 	            	</div>
 				</div>

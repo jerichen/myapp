@@ -61,7 +61,7 @@ class SubController extends WorkbenchController
 				$result['roles'] = $this->getRoles();
 			break;
 			case 'user';
-				$result['users'] = $this->getUsers();
+				$result['usersData'] = $this->getUsers();
 			break;
 		}
 
@@ -81,7 +81,8 @@ class SubController extends WorkbenchController
 	
 	public function getUsers()
 	{
-		$users = User::paginate(50);
+		$userDao = new User();
+		$users = $userDao->getUsers();
 		return $users;
 	}
 }
