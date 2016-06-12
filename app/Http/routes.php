@@ -8,6 +8,9 @@ Route::get('permission','PermissionController@index');
 // 登入後
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('workbench','WorkbenchController@index');
+	
+	# ajax
+	Route::get('workbench/ajax/{get?}','AjaxController@index');
 
 	# sub
 	Route::get('workbench/{sub?}','SubController@sub');

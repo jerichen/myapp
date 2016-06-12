@@ -50,7 +50,7 @@
 						<div class="col-sm-6">
 							<div class="dataTables_info" id="user-role-list_info" role="status" aria-live="polite">
 							@if($roles->currentPage() == 1)
-							Showing 1 to {{ $roles->perPage() }} of {{ $roles->total() }} entries
+							Showing 1 to {{ $roles->total() }} of {{ $roles->total() }} entries
 							@endif
 							
 							@if($roles->currentPage() != 1)
