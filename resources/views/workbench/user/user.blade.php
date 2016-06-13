@@ -25,8 +25,8 @@
               		    
               		    <div class="box-tools">
               		    	<div class="box-tools pull-right">
-	              		    	<button type="button" class="btn btn-success btn-sm" data-action="add"><i class="fa fa-times-circle"></i> New</button>
-								<button type="button" class="btn btn-danger btn-sm" data-action="delete"><i class="fa fa-minus"></i> Delete</button>
+	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn"><i class="fa fa-times-circle"></i> New</button>
+								<button type="button" class="btn btn-danger btn-sm" id="delete-btn"><i class="fa fa-minus"></i> Delete</button>
               		    	</div>
               		    
 	                		<div class="input-group input-group-sm" style="width: 150px;">
@@ -89,12 +89,12 @@
 			<div class="col-md-12">
 				<div class="box box-warning">
 					<div class="box-header with-border">
-						<h3 class="box-title" id="userName">View User [Admin]</h3>
+						<h3 class="box-title" id="userName"></h3>
 						
-						<div class="box-tools pull-right" id="edit-div">
+						<div class="box-tools pull-right" id="edit-div" style="display:none">
 							<button type="button" class="btn btn-primary btn-sm" id="edit-btn"><i class="fa fa-pencil-square"></i> Edit</button>
           		    	</div>
-          		    	<div class="box-tools pull-right" id="save-div" style="display:none">
+          		    	<div class="box-tools pull-right" id="save-div">
 							<button type="button" class="btn btn-primary btn-sm" id="save-btn"><i class="fa fa-floppy-o"></i> Save</button>
 							<button type="button" class="btn btn-default btn-sm" id="cancel-btn"><i class="fa fa-times-circle"></i> Cancel</button>
           		    	</div>
@@ -111,16 +111,17 @@
 		              						<div class="col-md-6">
 						                		<div class="box-body">
 						                			<div class="form-group">
+						                				<input type="text" class="form-control" id="user_id" disabled>
 						                				<label for="name">Name</label>
-	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name" disabled>
+	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name">
 						                			</div>
 						                			<div class="form-group">
 						                				<label for="email">E-mail Address</label>
-	                  									<input type="text" class="form-control user-input" id="email" placeholder="Enter Email" disabled>
+	                  									<input type="text" class="form-control user-input" id="email" placeholder="Enter Email">
 						                			</div>
 						                			<div class="form-group">
 									                	<label for="password">Password</label>
-									                  	<input type="password" class="form-control user-input" id="password" placeholder="Password" disabled>
+									                  	<input type="password" class="form-control user-input" id="password" placeholder="Password">
 									                </div>
 						                		</div>
 						                	</div>
@@ -128,18 +129,16 @@
 						                		<div class="box-body">
 						                			<div class="form-group">
 						                				<label for="status">Status / Role</label>
-						                				<div class="radio">
-                                                            <label>
-                                                            <input class="user-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked disabled>
-                                                            Admin
-                                                            </label>
-                                                      	</div>
-                                                      	<div class="radio">
-                                                            <label>
-                                                            <input class="user-input" type="radio" name="optionsRadios" id="optionsRadios2" value="optionsRadios2" disabled>
-                                                            User
-                                                            </label>
-                                                      	</div>
+						                				<div id="roles">
+						                					@foreach($roles as $role)
+						                					<div class="radio">
+							                					<label>
+							                						<input class="user-input" type="radio" name="roleRadios" id="roleRadios" value="{{ $role->id }}">
+							                						{{ $role->name }}
+							                					</label>
+						                					</div>
+						                					@endforeach
+						                				</div>
 						                			</div>
 						                		</div>
 						                	</div>
@@ -181,8 +180,29 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	document.getElementById("user-image").disabled = true;
+// 	$("input[type=radio][value=1]").prop("checked",true);
 });	
+
+function addDisabled(){
+	document.getElementById("user-image").disabled = true;
+	$('.user-input').prop("disabled","disabled");
+	$('#save-div').hide();
+	$('#edit-div').show();
+// 	$("input[type=radio]").prop("checked",false);
+}
+
+// TODO add
+function userData(user_id){
+    var _url = "/workbench/ajax/getUser?id=" + user_id;
+    $.getJSON(_url, function(data) {
+    	$("#userName").text("View User [ " + data.user.name + " ]");
+    	$("#user_id").val(data.user.id);
+    	$("#name").val(data.user.name);
+    	$("#email").val(data.user.email);
+
+    	$("input[type=radio][value=" + data.role.id + "]").prop("checked",true);
+    });
+}
 
 $(function() {
 	$("#search").on("keyup", function() {
@@ -203,16 +223,22 @@ $(function() {
 	});
 
 	$("#userTable tr").click(function(e) {
+		addDisabled();
 	    $("#userTable tr").removeClass("highlighted");
 	    $(this).addClass("highlighted");
 
-	    var user_id = $(this).attr("id");
+	    <!-- 取得user資料 -->
+	    var user_id = $(this).prop("id");
 	    var _url = "/workbench/ajax/getUser?id=" + user_id;
-
 	    $.getJSON(_url, function(data) {
 	    	console.log(data);
+	    	$("#userName").text("View User [ " + data.user.name + " ]");
+	    	$("#user_id").val(data.user.id);
+	    	$("#name").val(data.user.name);
+	    	$("#email").val(data.user.email);
+
+	    	$("input[type=radio][value=" + data.role.id + "]").prop("checked",true);
 	    });
-// 	    $("#userName").text("View User [ " + user_name + " ]");
 	});
 
 	$("#edit-btn").click(function(e) {
@@ -225,10 +251,20 @@ $(function() {
 
 	$("#cancel-btn").click(function(e) {
 		e.preventDefault();
-		document.getElementById("user-image").disabled = true;
-		$('.user-input').attr("disabled","disabled");
-		$('#save-div').hide();
-		$('#edit-div').show();
+		addDisabled();
+	});
+
+	// TODO
+	$("#add-btn").click(function(e) {
+		e.preventDefault();
+		$("#user_id").val('');
+    	$("#name").val('');
+    	$("#email").val('');
+
+    	document.getElementById("user-image").disabled = false;
+		$('.user-input').removeAttr("disabled");
+    	$('#edit-div').hide();
+		$('#save-div').show();
 	});
 });	
 </script>

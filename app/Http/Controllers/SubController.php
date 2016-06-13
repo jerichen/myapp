@@ -61,7 +61,9 @@ class SubController extends WorkbenchController
 				$result['roles'] = $this->getRoles();
 			break;
 			case 'user';
+				$roles = Role::all();
 				$result['usersData'] = $this->getUsers();
+				$result['roles'] = $roles;
 			break;
 		}
 
