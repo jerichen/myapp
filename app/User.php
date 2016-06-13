@@ -55,13 +55,13 @@ class User extends Authenticatable
     
     public function getUsers()
     {
-    	$users = DB::table('users AS u')
+    	$res = DB::table('users AS u')
     				->select('u.*','r.name AS role_name')
 			    	->leftJoin('role_user AS ru', 'u.id', '=', 'ru.user_id')
 			    	->leftJoin('roles AS r', 'r.id', '=', 'ru.role_id')
 			    	->orderBy('u.id', 'ASC')
 			    	->paginate(50);
     	
-		return $users;
+		return $res;
     }
 }

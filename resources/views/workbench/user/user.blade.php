@@ -26,7 +26,6 @@
               		    <div class="box-tools">
               		    	<div class="box-tools pull-right">
 	              		    	<button type="button" class="btn btn-success btn-sm" data-action="add"><i class="fa fa-times-circle"></i> New</button>
-								<button type="button" class="btn btn-primary btn-sm" data-action="edit"><i class="fa fa-pencil-square"></i> Edit</button>
 								<button type="button" class="btn btn-danger btn-sm" data-action="delete"><i class="fa fa-minus"></i> Delete</button>
               		    	</div>
               		    
@@ -92,46 +91,72 @@
 					<div class="box-header with-border">
 						<h3 class="box-title" id="userName">View User [Admin]</h3>
 						
-						<div class="box-tools"></div>
+						<div class="box-tools pull-right" id="edit-div">
+							<button type="button" class="btn btn-primary btn-sm" id="edit-btn"><i class="fa fa-pencil-square"></i> Edit</button>
+          		    	</div>
+          		    	<div class="box-tools pull-right" id="save-div" style="display:none">
+							<button type="button" class="btn btn-primary btn-sm" id="save-btn"><i class="fa fa-floppy-o"></i> Save</button>
+							<button type="button" class="btn btn-default btn-sm" id="cancel-btn"><i class="fa fa-times-circle"></i> Cancel</button>
+          		    	</div>
 						<div class="box-body">
 							<div class="nav-tabs-custom">
 					            <ul class="nav nav-tabs">
 					            	<li class="active"><a href="#tab_1" data-toggle="tab">Profile</a></li>
-              						<li><a href="#tab_2" data-toggle="tab">Permission</a></li>
+              						<li><a href="#tab_2" data-toggle="tab">Details</a></li>
 					            </ul>
 					            <div class="tab-content">
-	              					<div class="tab-pane active" id="tab_1">
-	              					
+					            	<!-- tabl -->
+	              					<div class="tab-pane active" id="tab_1">	              					
 	              						<div class="row">
 		              						<div class="col-md-6">
-							                	<form role="form">
-							                		<div class="box-body">
-							                			<div class="form-group">
-							                				<label for="name">Name</label>
-		                  									<input type="text" class="form-control" id="name" placeholder="Enter Name" disabled>
-							                			</div>
-							                			<div class="form-group">
-							                				<label for="email">E-mail Address</label>
-		                  									<input type="text" class="form-control" id="email" placeholder="Enter Email" disabled>
-							                			</div>
-							                			<div class="form-group">
-										                	<label for="password">Password</label>
-										                  	<input type="password" class="form-control" id="password" placeholder="Password" disabled>
-										                </div>
-							                		</div>
-							                	</form>
+						                		<div class="box-body">
+						                			<div class="form-group">
+						                				<label for="name">Name</label>
+	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name" disabled>
+						                			</div>
+						                			<div class="form-group">
+						                				<label for="email">E-mail Address</label>
+	                  									<input type="text" class="form-control user-input" id="email" placeholder="Enter Email" disabled>
+						                			</div>
+						                			<div class="form-group">
+									                	<label for="password">Password</label>
+									                  	<input type="password" class="form-control user-input" id="password" placeholder="Password" disabled>
+									                </div>
+						                		</div>
 						                	</div>
 						                	<div class="col-md-6">
-							                	<div class="form-group">
-								                	<label for="images">File input</label>
-								                  	<input type="file" id="images">
-								                  	<p class="help-block">Example block-level help text here.</p>
-								                </div>
+						                		<div class="box-body">
+						                			<div class="form-group">
+						                				<label for="status">Status / Role</label>
+						                				<div class="radio">
+                                                            <label>
+                                                            <input class="user-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked disabled>
+                                                            Admin
+                                                            </label>
+                                                      	</div>
+                                                      	<div class="radio">
+                                                            <label>
+                                                            <input class="user-input" type="radio" name="optionsRadios" id="optionsRadios2" value="optionsRadios2" disabled>
+                                                            User
+                                                            </label>
+                                                      	</div>
+						                			</div>
+						                		</div>
 						                	</div>
 					                	</div>
 					                </div>
-					                <div class="tab-pane" id="tab_2">
-					                	<b>Permission</b>
+					                
+					                <!-- tab2 -->
+					                <div class="tab-pane" id="tab_2">					                	
+					                	<div class="row">
+					                		<div class="col-md-6">
+							                	<div class="form-group">
+								                	<label for="images">File input</label>
+								                  	<input type="file" id="user-image">
+								                  	<p class="help-block">Example block-level help text here.</p>
+								                </div>
+						                	</div>
+					                	</div>					                	
 					                </div>
 				                </div>
 				            </div>
@@ -155,6 +180,10 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	document.getElementById("user-image").disabled = true;
+});	
+
 $(function() {
 	$("#search").on("keyup", function() {
 	    var value = $(this).val();
@@ -181,9 +210,25 @@ $(function() {
 	    var _url = "/workbench/ajax/getUser?id=" + user_id;
 
 	    $.getJSON(_url, function(data) {
-	    	console.log(data.name);
+	    	console.log(data);
 	    });
 // 	    $("#userName").text("View User [ " + user_name + " ]");
+	});
+
+	$("#edit-btn").click(function(e) {
+		e.preventDefault();
+		document.getElementById("user-image").disabled = false;
+		$('.user-input').removeAttr("disabled");
+		$('#edit-div').hide();
+		$('#save-div').show();
+	});
+
+	$("#cancel-btn").click(function(e) {
+		e.preventDefault();
+		document.getElementById("user-image").disabled = true;
+		$('.user-input').attr("disabled","disabled");
+		$('#save-div').hide();
+		$('#edit-div').show();
 	});
 });	
 </script>
