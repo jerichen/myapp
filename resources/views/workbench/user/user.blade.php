@@ -14,6 +14,8 @@
 </section>
 <!-- Main content -->
 <section class="content">
+	<div class="alert alert-warning" id="message-alert"></div>
+	
 	<!-- Main row -->
     <div class="row">
     	<!-- Left col -->
@@ -24,12 +26,12 @@
               		    <h3 class="box-title">{{ $menuData->name }} Table</h3>
               		    
               		    <div class="box-tools">
-              		    	<div class="box-tools pull-right">
+              		    	<div class="pull-right">
 	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn" onclick="formReset()"><i class="fa fa-times-circle"></i> New</button>
-								<button type="button" class="btn btn-danger btn-sm" id="delete-btn"><i class="fa fa-minus"></i> Delete</button>
+								<button type="button" class="btn btn-danger btn-sm" id="del-btn" data-toggle="modal" data-target="#delModal"><i class="fa fa-minus"></i> Delete</button>
               		    	</div>
               		    
-	                		<div class="input-group input-group-sm" style="width: 150px;">
+	                		<div class="input-group input-group-sm pull-left" style="width: 150px;">
 		                  		<input type="text" id="search" class="form-control pull-right" placeholder="Search">
 		                  		<div class="input-group-btn">
 		                    		<button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -169,6 +171,28 @@
 			</div>
 		</section>
     </div>
+    
+    
+<!-- Modal -->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+			</div>
+		
+			<div class="modal-body">
+				<p>You will not be able to recover this data!</p>
+			</div>
+		                
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<a class="btn btn-danger" href="delete.php?ref=">Delete</a>
+			</div>
+		</div>
+	</div>
+</div>
 </section>
 
 <style>
@@ -184,6 +208,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	$("#message-alert").hide();
 // 	$('input[type=radio][value=1]').prop('checked',true);
 });	
 
@@ -193,7 +218,7 @@ function formReset(){
 
 function addDisabled(){
 	document.getElementById('user-image').disabled = true;
-	$('.user-input').prop('disabled","disabled');
+	$('.user-input').prop('disabled','disabled');
 }
 
 function removeDisabled(){
@@ -285,16 +310,29 @@ $(function() {
 		$('#edit-div').show();
 	});
 
-	$('#delete-btn').click(function(e) {
+	$('#del-btn').click(function(e) {
 		e.preventDefault();
-		var user_id =$('#userTable tr[class="highlighted"] td:first').text();
-		if(user_id == null){
-			alert('未選');
+		var id =$('#userTable tr[class="highlighted"] td:first').text();
+		if(id == ''){
+			var strHtml = '';
+			strHtml += '<button type="button" class="close" data-dismiss="alert">x</button>';
+	        strHtml += '<strong>Warning!</strong>';
+	        strHtml += '  請選擇一筆';
+	        $("#message-alert").html(strHtml);
+	          
+			$("#message-alert").alert();
+	        $("#message-alert").fadeTo(2000, 500).fadeOut(2000, function(){
+	            $(".alert-dismissable").alert('close');
+	        }); 
+			return false;
 		}
-		
-		alert(user_id);exit; 
-		alert('are you sure');
-	});
+    });
+
+	$('#delModal').on('show.bs.modal', function(e) {
+		var id =$('#userTable tr[class="highlighted"] td:first').text();
+        removeBtn = $(this).find('.btn-danger');
+        removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
+    });
 });	
 </script>
 @endsection
