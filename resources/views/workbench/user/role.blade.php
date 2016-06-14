@@ -84,13 +84,13 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(function() {
-	$("#search").on("keyup", function() {
+	$('#search').on('keyup', function() {
 	    var value = $(this).val();
 
-	    $("table tr").each(function(index) {
+	    $('table tr').each(function(index) {
 	        if (index !== 0) {
 	            $row = $(this);
-	            var id = $row.find("td:eq(1)").text();
+	            var id = $row.find('td:eq(1)').text();
 	            if (id.indexOf(value) !== 0) {
 	                $row.hide();
 	            }

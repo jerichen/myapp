@@ -77,7 +77,7 @@ class SubController extends WorkbenchController
 	
 	public function getRoles()
 	{
-		$roles = Role::paginate(50);
+		$roles = Role::paginate(10);
 		return $roles;
 	}
 	

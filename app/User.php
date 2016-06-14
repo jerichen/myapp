@@ -60,7 +60,7 @@ class User extends Authenticatable
 			    	->leftJoin('role_user AS ru', 'u.id', '=', 'ru.user_id')
 			    	->leftJoin('roles AS r', 'r.id', '=', 'ru.role_id')
 			    	->orderBy('u.id', 'ASC')
-			    	->paginate(50);
+			    	->paginate(10);
     	
 		return $res;
     }

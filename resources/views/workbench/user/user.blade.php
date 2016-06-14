@@ -25,7 +25,7 @@
               		    
               		    <div class="box-tools">
               		    	<div class="box-tools pull-right">
-	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn"><i class="fa fa-times-circle"></i> New</button>
+	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn" onclick="formReset()"><i class="fa fa-times-circle"></i> New</button>
 								<button type="button" class="btn btn-danger btn-sm" id="delete-btn"><i class="fa fa-minus"></i> Delete</button>
               		    	</div>
               		    
@@ -87,9 +87,10 @@
 				</div>
 			</div>
 			<div class="col-md-12">
-				<div class="box box-warning">
+				<div class="box box-warning" id="post-div" style="display:none">
+					<form id="myForm">
 					<div class="box-header with-border">
-						<h3 class="box-title" id="userName"></h3>
+						<h3 class="box-title" id="userName">New User</h3>
 						
 						<div class="box-tools pull-right" id="edit-div" style="display:none">
 							<button type="button" class="btn btn-primary btn-sm" id="edit-btn"><i class="fa fa-pencil-square"></i> Edit</button>
@@ -111,7 +112,9 @@
 		              						<div class="col-md-6">
 						                		<div class="box-body">
 						                			<div class="form-group">
-						                				<input type="text" class="form-control" id="user_id" disabled>
+						                				<input type="hidden" class="form-control" id="user_id" disabled>
+						                				<input type="hidden" class="form-control" id="action" disabled>
+						                				
 						                				<label for="name">Name</label>
 	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name">
 						                			</div>
@@ -161,6 +164,7 @@
 				            </div>
 						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 		</section>
@@ -180,38 +184,43 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-// 	$("input[type=radio][value=1]").prop("checked",true);
+// 	$('input[type=radio][value=1]').prop('checked',true);
 });	
 
-function addDisabled(){
-	document.getElementById("user-image").disabled = true;
-	$('.user-input').prop("disabled","disabled");
-	$('#save-div').hide();
-	$('#edit-div').show();
-// 	$("input[type=radio]").prop("checked",false);
+function formReset(){
+	document.getElementById('myForm').reset()
 }
 
-// TODO add
+function addDisabled(){
+	document.getElementById('user-image').disabled = true;
+	$('.user-input').prop('disabled","disabled');
+}
+
+function removeDisabled(){
+	document.getElementById('user-image').disabled = false;
+	$('.user-input').removeAttr('disabled');
+}
+
 function userData(user_id){
     var _url = "/workbench/ajax/getUser?id=" + user_id;
     $.getJSON(_url, function(data) {
-    	$("#userName").text("View User [ " + data.user.name + " ]");
-    	$("#user_id").val(data.user.id);
-    	$("#name").val(data.user.name);
-    	$("#email").val(data.user.email);
+    	$('#userName').text('View User [ " + data.user.name + " ]');
+    	$('#user_id').val(data.user.id);
+    	$('#name').val(data.user.name);
+    	$('#email').val(data.user.email);
 
-    	$("input[type=radio][value=" + data.role.id + "]").prop("checked",true);
+    	$('input[type=radio][value=" + data.role.id + "]').prop('checked',true);
     });
 }
 
 $(function() {
-	$("#search").on("keyup", function() {
+	$('#search').on('keyup', function() {
 	    var value = $(this).val();
 
-	    $("table tr").each(function(index) {
+	    $('table tr').each(function(index) {
 	        if (index !== 0) {
 	            $row = $(this);
-	            var id = $row.find("td:eq(1)").text();
+	            var id = $row.find('td:eq(1)').text();
 	            if (id.indexOf(value) !== 0) {
 	                $row.hide();
 	            }
@@ -222,49 +231,69 @@ $(function() {
 	    });
 	});
 
-	$("#userTable tr").click(function(e) {
-		addDisabled();
-	    $("#userTable tr").removeClass("highlighted");
-	    $(this).addClass("highlighted");
+	$('#userTable tr').click(function(e) {
+	    $('#userTable tr').removeClass('highlighted');
+	    $(this).addClass('highlighted');
 
 	    <!-- 取得user資料 -->
-	    var user_id = $(this).prop("id");
+	    var user_id = $(this).prop('id');
 	    var _url = "/workbench/ajax/getUser?id=" + user_id;
 	    $.getJSON(_url, function(data) {
-	    	console.log(data);
-	    	$("#userName").text("View User [ " + data.user.name + " ]");
-	    	$("#user_id").val(data.user.id);
-	    	$("#name").val(data.user.name);
-	    	$("#email").val(data.user.email);
+	    	$('#userName').text('View User [ ' + data.user.name + ' ]');
+	    	$('#user_id').val(data.user.id);
+	    	$('#name').val(data.user.name);
+	    	$('#email').val(data.user.email);
+	    	$('#action').val('edit');
 
-	    	$("input[type=radio][value=" + data.role.id + "]").prop("checked",true);
+	    	$('input[type=radio][value=' + data.role.id + ']').prop('checked',true);
 	    });
+
+	    addDisabled();
+		$('#save-div').hide();
+		$('#edit-div').show();
+		$('#post-div').show();
 	});
 
-	$("#edit-btn").click(function(e) {
+	$('#edit-btn').click(function(e) {
 		e.preventDefault();
-		document.getElementById("user-image").disabled = false;
-		$('.user-input').removeAttr("disabled");
+		$('#action').val('edit');
+		document.getElementById('user-image').disabled = false;
+		$('.user-input').removeAttr('disabled');
 		$('#edit-div').hide();
 		$('#save-div').show();
 	});
 
-	$("#cancel-btn").click(function(e) {
+	$('#add-btn').click(function(e) {
 		e.preventDefault();
-		addDisabled();
+		$('#userName').text('New User');
+		$('#action').val('add');
+		removeDisabled();
+		$('#edit-div').hide();
+		$('#save-div').show();
+		$('#post-div').show();
 	});
 
-	// TODO
-	$("#add-btn").click(function(e) {
+	$('#cancel-btn').click(function(e) {
 		e.preventDefault();
-		$("#user_id").val('');
-    	$("#name").val('');
-    	$("#email").val('');
 
-    	document.getElementById("user-image").disabled = false;
-		$('.user-input').removeAttr("disabled");
-    	$('#edit-div').hide();
-		$('#save-div').show();
+		if($('#action').val() == 'add'){
+			$('#post-div').hide();
+		}	
+		
+		addDisabled();
+		$('#save-div').hide();
+		$('#edit-div').show();
+	});
+
+	$('#delete-btn').click(function(e) {
+		e.preventDefault();
+		var user_id =$('#userTable tr[class="highlighted"] td:first').text();
+		if(user_id == null){
+			alert('未選');
+		}
+		
+		alert(user_id);exit; 
+		alert('are you sure');
 	});
 });	
 </script>
