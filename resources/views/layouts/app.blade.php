@@ -75,6 +75,7 @@ desired effect
 	<!-- iCheck -->
 	<script src="{{ URL::asset('bower_components/AdminLTE/plugins/iCheck/icheck.min.js') }}"></script>
 
+	<script src="{{ URL::asset('js/validator.js') }}"></script>
 </body>
 </html>
 

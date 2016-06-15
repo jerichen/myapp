@@ -89,73 +89,88 @@
 				</div>
 			</div>
 			<div class="col-md-12">
-				<div class="box box-warning" id="post-div">
-					<form data-toggle="validator" id="userForm">
-						<div class="box-header with-border">
-							<h3 class="box-title" id="userName">New User</h3>
+				<div class="box box-warning" id="post-div" style="display:none">
+					<form id="userForm" data-toggle="validator">
+					<div class="box-header with-border">
+						<h3 class="box-title" id="userName">New User</h3>
 						
-    						<div class="box-tools pull-right" id="edit-div" style="display:none">
-    							<button type="button" class="btn btn-primary btn-sm" id="edit-btn"><i class="fa fa-pencil-square"></i> Edit</button>
-              		    	</div>
-              		    	<div class="box-tools pull-right" id="save-div">
-    							<button type="button" class="btn btn-primary btn-sm" id="save-btn"><i class="fa fa-floppy-o"></i> Save</button>
-    							<button type="button" class="btn btn-default btn-sm" id="cancel-btn"><i class="fa fa-times-circle"></i> Cancel</button>
-              		    	</div>
-          		    		<div class="box-body">
-          		    			<div class="nav-tabs-custom">
-          		    				<ul class="nav nav-tabs">
-    					            	<li class="active"><a href="#tab_1" data-toggle="tab">Profile</a></li>
-                  						<li><a href="#tab_2" data-toggle="tab">Details</a></li>
-    					            </ul>
-    					            <div class="tab-content">
-    					            	<!-- tabl -->
-    	              					<div class="tab-pane active" id="tab_1">
-    	              						<div class="row">
-    	              							<div class="col-md-6">
-    	              								<div class="box-body">
-                                                        <div class="form-group">
-    						                				<input type="hidden" class="form-control" id="user_id" disabled>
-    						                				<input type="hidden" class="form-control" id="action" disabled>
-    						                				
-    						                				<label for="name">Name</label>
-    	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name" required>
-    						                			</div>
-    						                			<div class="form-group">
-    						                				<label for="email">E-mail Address</label>
-    	                  									<input type="text" class="form-control user-input" id="email" placeholder="Enter Email" data-error="email address is invalid" required>
-    						                				<div class="help-block with-errors"></div>
-    						                			</div>
-    						                			<div class="form-group">
-    									                	<label for="password">Password</label>
-    									                  	<input type="password" class="form-control user-input" id="password" placeholder="Password" required>
-    									                	<div class="help-block">Minimum of 6 characters</div>
-    									                </div>
-    									                <div class="form-group">
-                                                            <label for="passwordConfirm">PasswordConfirm</label>
-                                                            <input type="password" class="form-control user-input" id="passwordConfirm" data-match="#password" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
-                                                            <div class="help-block with-errors"></div>
-                                                        </div>
-    	              								</div>
-    	              							</div>
-    	              						</div>
-    	              					</div>
-    	              					
-    	              					<!-- tab2 -->
-    					                <div class="tab-pane" id="tab_2">					                	
-    					                	<div class="row">
-    					                		<div class="col-md-6">
-    							                	<div class="form-group">
-    								                	<label for="images">File input</label>
-    								                  	<input type="file" id="user-image">
-    								                  	<p class="help-block">Example block-level help text here.</p>
-    								                </div>
-    						                	</div>
-    					                	</div>					                	
-    					                </div>
-    					            </div>
-          		    			</div>
-          		    		</div>
+						<div class="box-tools pull-right" id="edit-div" style="display:none">
+							<button type="button" class="btn btn-primary btn-sm" id="edit-btn"><i class="fa fa-pencil-square"></i> Edit</button>
+          		    	</div>
+          		    	<div class="box-tools pull-right" id="save-div">
+							<button type="button" class="btn btn-primary btn-sm" id="save-btn"><i class="fa fa-floppy-o"></i> Save</button>
+							<button type="button" class="btn btn-default btn-sm" id="cancel-btn"><i class="fa fa-times-circle"></i> Cancel</button>
+          		    	</div>
+						<div class="box-body">
+							<div class="nav-tabs-custom">
+					            <ul class="nav nav-tabs">
+					            	<li class="active"><a href="#tab_1" data-toggle="tab">Profile</a></li>
+              						<li><a href="#tab_2" data-toggle="tab">Details</a></li>
+					            </ul>
+					            <div class="tab-content">
+					            	<!-- tabl -->
+	              					<div class="tab-pane active" id="tab_1">	              					
+	              						<div class="row">
+		              						<div class="col-md-6">
+						                		<div class="box-body">
+						                			<div class="form-group">
+                                                        <label for="name" class="col-md-3 control-label">Name</label>
+                                                       	<input type="text" class="form-control" name="name" required/>
+                                                    </div>
+    
+						                			<div class="form-group">
+						                				<input type="hidden" class="form-control" id="user_id" disabled>
+						                				<input type="hidden" class="form-control" id="action" disabled>
+						                				
+						                				<label for="name">Name</label>
+	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name" required>
+						                			</div>
+						                			<div class="form-group">
+						                				<label for="email">E-mail Address</label>
+	                  									<input type="text" class="form-control user-input" id="email" placeholder="Enter Email">
+						                			</div>
+						                			<div class="form-group">
+									                	<label for="password">Password</label>
+									                  	<input type="password" class="form-control user-input" id="password" placeholder="Password">
+									                </div>
+						                		</div>
+						                	</div>
+						                	<div class="col-md-6">
+						                		<div class="box-body">
+						                			<div class="form-group">
+						                				<label for="status">Status / Role</label>
+						                				<div id="roles">
+						                					@foreach($roles as $role)
+						                					<div class="radio">
+							                					<label>
+							                						<input class="user-input" type="radio" name="roleRadios" id="roleRadios" value="{{ $role->id }}">
+							                						{{ $role->name }}
+							                					</label>
+						                					</div>
+						                					@endforeach
+						                				</div>
+						                			</div>
+						                		</div>
+						                	</div>
+					                	</div>
+					                </div>
+					                
+					                <!-- tab2 -->
+					                <div class="tab-pane" id="tab_2">					                	
+					                	<div class="row">
+					                		<div class="col-md-6">
+							                	<div class="form-group">
+								                	<label for="images">File input</label>
+								                  	<input type="file" id="user-image">
+								                  	<p class="help-block">Example block-level help text here.</p>
+								                </div>
+						                	</div>
+					                	</div>					                	
+					                </div>
+				                </div>
+				            </div>
 						</div>
+					</div>
 					</form>
 				</div>
 			</div>
@@ -323,9 +338,9 @@ $(function() {
         removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
     });
     
-	$("#save-div").click(function(e) {
-        $("#userForm").submit();
-        e.preventDefault();
+    $('#save-btn').click(function(e) {
+    	$("#userForm").submit();
+        event.preventDefault();
     });
 });	
 </script>
