@@ -90,7 +90,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div">
-					<form data-toggle="validator" id="userForm">
+					<form method="POST" id="userForm">
 						<div class="box-header with-border">
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -118,23 +118,16 @@
     						                				<input type="hidden" class="form-control" id="action" disabled>
     						                				
     						                				<label for="name">Name</label>
-    	                  									<input type="text" class="form-control user-input" id="name" placeholder="Enter Name" required>
+    	                  									<input type="text" class="form-control user-input" id="name" name="name" placeholder="Enter Name">
     						                			</div>
     						                			<div class="form-group">
     						                				<label for="email">E-mail Address</label>
-    	                  									<input type="text" class="form-control user-input" id="email" placeholder="Enter Email" data-error="email address is invalid" required>
-    						                				<div class="help-block with-errors"></div>
+    	                  									<input type="text" class="form-control user-input" id="email" name="email" placeholder="Enter Email">
     						                			</div>
     						                			<div class="form-group">
     									                	<label for="password">Password</label>
-    									                  	<input type="password" class="form-control user-input" id="password" placeholder="Password" required>
-    									                	<div class="help-block">Minimum of 6 characters</div>
+    									                  	<input type="password" class="form-control user-input" id="password" name="password" placeholder="Password">
     									                </div>
-    									                <div class="form-group">
-                                                            <label for="passwordConfirm">PasswordConfirm</label>
-                                                            <input type="password" class="form-control user-input" id="passwordConfirm" data-match="#password" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
-                                                            <div class="help-block with-errors"></div>
-                                                        </div>
     	              								</div>
     	              							</div>
     	              						</div>
@@ -199,6 +192,41 @@ tr.highlighted td {
 $(document).ready(function() {
 	$("#message-alert").hide();
 // 	$('input[type=radio][value=1]').prop('checked',true);
+
+	<!-- validate bootstrap 初始化 -->
+	$('#userForm').validate({
+	    rules: {
+	        name: {
+	        	minlength: 3,
+                maxlength: 15,
+	            required: true
+	        },
+	        email: {
+	            required: true,
+	            email: true
+	        },
+	        password: {
+	            minlength: 6,
+	            maxlength: 15,
+	            required: true
+	        }
+	    },
+	    highlight: function (element) {
+	        $(element).closest('.form-group').addClass('has-error');
+	    },
+	    unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.parent('.form-control').length) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        }
+	});
 });	
 
 function formReset(){
