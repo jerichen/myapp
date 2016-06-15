@@ -89,8 +89,8 @@
 				</div>
 			</div>
 			<div class="col-md-12">
-				<div class="box box-warning" id="post-div">
-					<form method="POST" id="userForm">
+				<div class="box box-warning" id="post-div" style="display:none">
+					<form id="userForm">
 						<div class="box-header with-border">
 							<h3 class="box-title" id="userName">New User</h3>
 						
