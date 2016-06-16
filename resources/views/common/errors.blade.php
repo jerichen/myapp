@@ -10,3 +10,11 @@
         </ul>
     </div>
 @endif
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.alert-dismissible').fadeTo(2000, 500).fadeOut(2000, function(){
+        $(".alert-dismissable").alert('close');
+    }); 
+});
+</script>

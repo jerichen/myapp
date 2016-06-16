@@ -1,5 +1,7 @@
 @extends('workbench.index')
 
+@include('common.confirm')
+
 @section('sub_content')
 <section class="content-header">
 	<h1>
@@ -28,7 +30,9 @@
               		    <div class="box-tools">
               		    	<div class="pull-right">
 	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn" onclick="formReset()"><i class="fa fa-times-circle"></i> New</button>
-								<button type="button" class="btn btn-danger btn-sm" id="del-btn" data-toggle="modal" data-target="#delModal"><i class="fa fa-minus"></i> Delete</button>
+								<button type="button" class="btn btn-danger btn-sm" id="del-btn" data-toggle="modal" data-target="#confirmDelete" data-title="Delete User" data-message="Are you sure you want to delete this user ?">
+								<i class="fa fa-minus"></i> Delete
+								</button>
               		    	</div>
               		    
 	                		<div class="input-group input-group-sm pull-left" style="width: 150px;">
@@ -90,7 +94,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div" style="display:none">
-					<form id="userForm" method="post" action="/workbench/abc">
+					<form id="userForm" method="post" action="{{ url('/') }}">
 						<div class="box-header with-border">
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -209,7 +213,6 @@ $(document).ready(function() {
 	            minlength: 6,
 	            maxlength: 15,
 // 	            required: true
-
 	            required:{
 	            	depends: function(element) {
 	            		if ($('#action').val() == 'add'){
@@ -239,21 +242,7 @@ $(document).ready(function() {
             error.fadeOut(3000, function() { $(this).remove(); });
         },
         submitHandler: function (form) {
-
-        	$.ajax({
-				type: $(form).attr('method'),
-				url: $(form).attr('action'),
-				data: $(form).serialize(),
-				dataType : 'json',
-				success: function(result){
-                	$("#contact_form").fadeOut(1000, function(){
-						$("#success_message").fadeIn();
-					});
-                }
-			})
-			 
-      			
-//         	form.submit();
+        	form.submit();
 			/*
         	var options = {  
     			url: 'recommend_process.php', 
@@ -299,7 +288,7 @@ function removeDisabled(){
 }
 
 function userData(user_id){
-    var _url = "/workbench/ajax/getUser?id=" + user_id;
+    var _url = '/workbench/ajax/getUser?id=' + user_id;
     $.getJSON(_url, function(data) {
     	$('#userName').text('View User [ " + data.user.name + " ]');
     	$('#user_id').val(data.user.id);
@@ -384,34 +373,52 @@ $(function() {
 		e.preventDefault();
 	});
 
-	$('#del-btn').click(function(e) {		
-		var id =$('#userTable tr[class="highlighted"] td:first').text();
-		if(id == ''){
-			var strHtml = '';
-			strHtml += '<button type="button" class="close" data-dismiss="alert">x</button>';
-	        strHtml += '<strong>Warning!</strong>';
-	        strHtml += '  請選擇一筆';
-	        $("#message-alert").html(strHtml);
-	          
-			$("#message-alert").alert();
-	        $("#message-alert").fadeTo(2000, 500).fadeOut(3000, function(){
-	            $(".alert-dismissable").alert('close');
-	        }); 
-			return false;
-		}
-		e.preventDefault();
-    });
-
-	$('#delModal').on('show.bs.modal', function(e) {
-		var id =$('#userTable tr[class="highlighted"] td:first').text();
-        removeBtn = $(this).find('.btn-danger');
-        removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
-    });
-    
 	$('#save-div').click(function(e) {
         $('#userForm').submit();
         e.preventDefault();
     });
 });	
 </script>
+
+<!-- Dialog show event handler -->
+<script type="text/javascript">
+$('#del-btn').click(function(e) {		
+	var id =$('#userTable tr[class="highlighted"] td:first').text();
+	if(id == ''){
+		var strHtml = '';
+		strHtml += '<button type="button" class="close" data-dismiss="alert">x</button>';
+        strHtml += '<strong>Warning!</strong>';
+        strHtml += '  請選擇一筆';
+        $("#message-alert").html(strHtml);
+          
+		$('#message-alert').alert();
+        $('#message-alert').fadeTo(2000, 500).fadeOut(3000, function(){
+            $(".alert-dismissable").alert('close');
+        }); 
+		return false;
+	}
+	e.preventDefault();
+});
+
+$('#confirmDelete').on('show.bs.modal', function (e) {
+	$message = $(e.relatedTarget).attr('data-message');
+    $(this).find('.modal-body p').text($message);
+    $title = $(e.relatedTarget).attr('data-title');
+    $(this).find('.modal-title').text($title);
+
+    // Pass form reference to modal for submission on yes/ok
+    var form = $(e.relatedTarget).closest('form');
+    $(this).find('.modal-footer #confirm').data('form', form);
+});
+
+<!-- Form confirm (yes/ok) handler, submits form -->
+$('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
+	var id =$('#userTable tr[class="highlighted"] td:first').text();
+// 	removeBtn = $(this).find('.btn-danger');
+//     removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
+	alert(id);exit;
+	$(this).data('form').submit();
+});
+</script>
+
 @endsection

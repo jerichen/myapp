@@ -59,5 +59,6 @@ $(function() {
 $(document).ready(function() {
 	$('body').removeAttr('class');
     $('body').addClass('hold-transition login-page');
+    $('footer').remove();
 });	
 </script>
