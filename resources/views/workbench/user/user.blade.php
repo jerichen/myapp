@@ -90,7 +90,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div" style="display:none">
-					<form id="userForm">
+					<form id="userForm" method="post" action="/workbench/abc">
 						<div class="box-header with-border">
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -189,7 +189,7 @@ tr.highlighted td {
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() {	   
 	$("#message-alert").hide();
 // 	$('input[type=radio][value=1]').prop('checked',true);
 
@@ -208,7 +208,17 @@ $(document).ready(function() {
 	        password: {
 	            minlength: 6,
 	            maxlength: 15,
-	            required: true
+// 	            required: true
+
+	            required:{
+	            	depends: function(element) {
+	            		if ($('#action').val() == 'add'){
+		            		return true;
+	            		}else{
+		            		return false;
+	            		}
+		            }
+		        }  
 	        }
 	    },
 	    highlight: function (element) {
@@ -225,6 +235,51 @@ $(document).ready(function() {
             } else {
                 error.insertAfter(element);
             }
+
+            error.fadeOut(3000, function() { $(this).remove(); });
+        },
+        submitHandler: function (form) {
+
+        	$.ajax({
+				type: $(form).attr('method'),
+				url: $(form).attr('action'),
+				data: $(form).serialize(),
+				dataType : 'json',
+				success: function(result){
+                	$("#contact_form").fadeOut(1000, function(){
+						$("#success_message").fadeIn();
+					});
+                }
+			})
+			 
+      			
+//         	form.submit();
+			/*
+        	var options = {  
+    			url: 'recommend_process.php', 
+    		    type: 'POST',
+    		    dataType:'json', 
+    		    success  : function(responseText, statusText, xhr, $form)  {
+    				if ( responseText.error == 1 ) {
+    					alert(responseText.message);				
+    				} else {
+    					alert('Success');
+    	 				window.location.reload();
+
+    	 				$('#success-dialog').modal({
+    						toggle: true,
+    					});
+    					
+    				    $('#success-dialog').dialog('open');
+    				}
+    			},
+    			error: function(){
+    				alert("failure");
+    			}
+    		};
+
+    		form.ajaxForm(options);
+    		*/
         }
 	});
 });	
@@ -285,6 +340,7 @@ $(function() {
 	    	$('#user_id').val(data.user.id);
 	    	$('#name').val(data.user.name);
 	    	$('#email').val(data.user.email);
+	    	$('#password').val(data.user.password);
 	    	$('#action').val('edit');
 
 	    	$('input[type=radio][value=' + data.role.id + ']').prop('checked',true);
@@ -297,27 +353,27 @@ $(function() {
 	});
 
 	$('#edit-btn').click(function(e) {
-		e.preventDefault();
 		$('#action').val('edit');
 		document.getElementById('user-image').disabled = false;
 		$('.user-input').removeAttr('disabled');
 		$('#edit-div').hide();
 		$('#save-div').show();
+
+		e.preventDefault();
 	});
 
 	$('#add-btn').click(function(e) {
-		e.preventDefault();
 		$('#userName').text('New User');
 		$('#action').val('add');
 		removeDisabled();
 		$('#edit-div').hide();
 		$('#save-div').show();
 		$('#post-div').show();
+
+		e.preventDefault();
 	});
 
 	$('#cancel-btn').click(function(e) {
-		e.preventDefault();
-
 		if($('#action').val() == 'add'){
 			$('#post-div').hide();
 		}	
@@ -325,10 +381,10 @@ $(function() {
 		addDisabled();
 		$('#save-div').hide();
 		$('#edit-div').show();
+		e.preventDefault();
 	});
 
-	$('#del-btn').click(function(e) {
-		e.preventDefault();
+	$('#del-btn').click(function(e) {		
 		var id =$('#userTable tr[class="highlighted"] td:first').text();
 		if(id == ''){
 			var strHtml = '';
@@ -338,11 +394,12 @@ $(function() {
 	        $("#message-alert").html(strHtml);
 	          
 			$("#message-alert").alert();
-	        $("#message-alert").fadeTo(2000, 500).fadeOut(2000, function(){
+	        $("#message-alert").fadeTo(2000, 500).fadeOut(3000, function(){
 	            $(".alert-dismissable").alert('close');
 	        }); 
 			return false;
 		}
+		e.preventDefault();
     });
 
 	$('#delModal').on('show.bs.modal', function(e) {
@@ -351,8 +408,8 @@ $(function() {
         removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
     });
     
-	$("#save-div").click(function(e) {
-        $("#userForm").submit();
+	$('#save-div').click(function(e) {
+        $('#userForm').submit();
         e.preventDefault();
     });
 });	

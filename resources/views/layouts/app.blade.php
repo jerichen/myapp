@@ -78,6 +78,8 @@ desired effect
 	<script src="{{ URL::asset('plugin/js/jquery.validate.js') }}"></script>
 	<script src="{{ URL::asset('plugin/js/additional-methods.js') }}"></script>
 	<script src="{{ URL::asset('plugin/js/messages_zh_TW.js') }}"></script>
+	
+	<script src="{{ URL::asset('plugin/js/jquery.form.js') }}"></script>
 </body>
 </html>
 

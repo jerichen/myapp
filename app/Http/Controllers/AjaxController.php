@@ -17,9 +17,8 @@ class AjaxController extends Controller
 				$result = $this->getUser();
 			break;
 		}
-		
+
 		return $result;
-		return json_encode($result);
 	}
 	
 	public function getUser()
