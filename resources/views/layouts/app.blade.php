@@ -27,6 +27,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   	<link rel="stylesheet" href="{{ URL::asset('bower_components/AdminLTE/dist/css/skins/skin-blue.min.css') }}">
 
+	<!-- toastr -->
+	<link rel="stylesheet" href="{{ URL::asset('bower_components/toastr/toastr.css') }}">
+		
   	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   	<!--[if lt IE 9]>
@@ -79,7 +82,8 @@ desired effect
 	<script src="{{ URL::asset('plugin/js/additional-methods.js') }}"></script>
 	<script src="{{ URL::asset('plugin/js/messages_zh_TW.js') }}"></script>
 	
-	<script src="{{ URL::asset('plugin/js/jquery.form.js') }}"></script>
+	<!-- toastr -->
+	<script src="{{ URL::asset('bower_components/toastr/toastr.js') }}"></script>
 </body>
 </html>
 
