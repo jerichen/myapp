@@ -61,6 +61,15 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
     }
+    
+    /*
+    protected function validateLogin(array $data)
+    {
+    	$this->validate($request, [
+    			$this->loginUsername() => 'required', 'password' => 'required',
+    	]);
+    }
+    */
 
     /**
      * Create a new user instance after a valid registration.

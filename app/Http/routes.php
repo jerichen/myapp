@@ -4,6 +4,7 @@ Route::get('/', function () {
 });
 
 Route::get('permission','PermissionController@index');
+Route::get('toastr','PermissionController@toastrTest');
 
 // 登入後
 Route::group(['middleware' => 'auth'], function () {

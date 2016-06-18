@@ -3250,5 +3250,37 @@
         ],
         "description": "Symfony DomCrawler Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "ryan/toastr-for-laravel",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yuansir/toastr-for-laravel5.git",
+            "reference": "e1490f9a19b8e62b45e16f45b583db2bf64d7908"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yuansir/toastr-for-laravel5/zipball/e1490f9a19b8e62b45e16f45b583db2bf64d7908",
+            "reference": "e1490f9a19b8e62b45e16f45b583db2bf64d7908",
+            "shasum": ""
+        },
+        "time": "2016-01-22 01:42:33",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Yuansir\\Toastr\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Ryan",
+                "email": "yuansir@live.cn"
+            }
+        ],
+        "description": "toastr.js for laravel5"
     }
 ]

@@ -4,6 +4,8 @@ namespace Illuminate\Validation;
 
 use Exception;
 
+use Yuansir\Toastr\Facades\Toastr;
+
 class ValidationException extends Exception
 {
     /**
@@ -33,6 +35,15 @@ class ValidationException extends Exception
 
         $this->response = $response;
         $this->validator = $validator;
+        
+        if($this->validator){
+        	$messages = $this->validator->messages();
+        	$html = '';
+        	foreach ($messages->all() as $message){
+        		$html .= '<li>' . $message . '</li>';
+        	}
+        	Toastr::error($html,'Alert');
+        }
     }
 
     /**
@@ -43,5 +54,10 @@ class ValidationException extends Exception
     public function getResponse()
     {
         return $this->response;
+    }
+    
+    public function getValidator()
+    {
+    	return $this->validator;
     }
 }
