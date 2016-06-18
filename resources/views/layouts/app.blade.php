@@ -84,6 +84,7 @@ desired effect
 	
 	<!-- toastr -->
 	<script src="{{ URL::asset('bower_components/toastr/toastr.js') }}"></script>
+	<script src="{{ URL::asset('lib/js/app.js') }}"></script>
 </body>
 </html>
 

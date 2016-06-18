@@ -16,8 +16,7 @@
 </section>
 <!-- Main content -->
 <section class="content">
-	<div class="alert alert-warning" id="message-alert"></div>
-	
+
 	<!-- Main row -->
     <div class="row">
     	<!-- Left col -->
@@ -30,7 +29,7 @@
               		    <div class="box-tools">
               		    	<div class="pull-right">
 	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn" onclick="formReset()"><i class="fa fa-times-circle"></i> New</button>
-								<button type="button" class="btn btn-danger btn-sm" id="del-btn" data-toggle="modal" data-target="#confirmDelete" data-title="Delete User" data-message="Are you sure you want to delete this user ?">
+								<button type="button" class="btn btn-danger btn-sm" id="del-btn" data-toggle="modal" data-target="#confirmDelete" data-title="Delete User" data-message="您確定刪除嘛 ?">
 								<i class="fa fa-minus"></i> Delete
 								</button>
               		    	</div>
@@ -160,26 +159,35 @@
     </div>
 </section>
 
-<!-- Modal -->
-<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-			</div>
-		
-			<div class="modal-body">
-				<p>You will not be able to recover this data!</p>
-			</div>
-		                
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<a class="btn btn-danger" href="delete.php?ref=">Delete</a>
-			</div>
-		</div>
-	</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 <style>
 td {
@@ -194,7 +202,6 @@ tr.highlighted td {
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {	   
-	$("#message-alert").hide();
 // 	$('input[type=radio][value=1]').prop('checked',true);
 
 	<!-- validate bootstrap 初始化 -->
@@ -382,41 +389,39 @@ $(function() {
 
 <!-- Dialog show event handler -->
 <script type="text/javascript">
-$('#del-btn').click(function(e) {		
+$("#del-btn").on('click', function(e) {
 	var id =$('#userTable tr[class="highlighted"] td:first').text();
 	if(id == ''){
-		var strHtml = '';
-		strHtml += '<button type="button" class="close" data-dismiss="alert">x</button>';
-        strHtml += '<strong>Warning!</strong>';
-        strHtml += '  請選擇一筆';
-        $("#message-alert").html(strHtml);
-          
-		$('#message-alert').alert();
-        $('#message-alert').fadeTo(2000, 500).fadeOut(3000, function(){
-            $(".alert-dismissable").alert('close');
-        }); 
+		toastr.warning('請選擇一筆。');
 		return false;
+	}else{
+		$("#confirmDelete").on('show.bs.modal', function(e) {
+	    	var button = $(e.relatedTarget)
+	    	$message = $(e.relatedTarget).attr('data-message');
+	        $(this).find('.modal-body p').text($message);
+	        $title = $(e.relatedTarget).attr('data-title');
+	        $(this).find('.modal-title').text($title);
+
+	        // Pass form reference to modal for submission on yes/ok
+	        var form = $(e.relatedTarget).closest('form');
+	        $(this).find('.modal-footer #confirm').data('form', form);
+	    });
 	}
+
 	e.preventDefault();
-});
-
-$('#confirmDelete').on('show.bs.modal', function (e) {
-	$message = $(e.relatedTarget).attr('data-message');
-    $(this).find('.modal-body p').text($message);
-    $title = $(e.relatedTarget).attr('data-title');
-    $(this).find('.modal-title').text($title);
-
-    // Pass form reference to modal for submission on yes/ok
-    var form = $(e.relatedTarget).closest('form');
-    $(this).find('.modal-footer #confirm').data('form', form);
 });
 
 <!-- Form confirm (yes/ok) handler, submits form -->
 $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
-	var id =$('#userTable tr[class="highlighted"] td:first').text();
-// 	removeBtn = $(this).find('.btn-danger');
-//     removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
-	alert(id);exit;
+	var id = $('#userTable tr[class="highlighted"] td:first').text();
+// 	var del_url = '{{ (url('/user/delete')) }}';
+// 	var del_url = '{{ url('/workbench/user/user/delete') }}';
+// 	del_url = del_url + '/' + id;
+// 	removeBtn = $('#confirmDelete').find('.modal-footer #confirm');
+// 	removeBtn.attr('href', del_url);
+	
+//     e.preventDefault();
+
 	$(this).data('form').submit();
 });
 </script>
