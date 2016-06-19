@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
-use Yuansir\Toastr\Facades\Toastr;
-
 trait AuthenticatesUsers
 {
     use RedirectsUsers;
@@ -128,8 +126,6 @@ trait AuthenticatesUsers
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-    	Toastr::error($this->getFailedLoginMessage(),'Alert');
-
         return redirect()->back()
             ->withInput($request->only($this->loginUsername(), 'remember'))
             ->withErrors([
