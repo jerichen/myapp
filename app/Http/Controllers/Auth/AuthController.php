@@ -107,7 +107,7 @@ class AuthController extends Controller
     		Auth::loginUsingId($createdUser->id);
     		return Redirect::to('workbench');	
     	} catch (Exception $e) {
-    		return Redirect::to('login/facebook');
+    		return Redirect::to('login');
     	}
     }
 }
