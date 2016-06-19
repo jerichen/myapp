@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+// social
+use Laravel\Socialite\Facades\Socialite;
+
 use Auth;
 use Redirect;
 
@@ -61,15 +64,6 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
     }
-    
-    /*
-    protected function validateLogin(array $data)
-    {
-    	$this->validate($request, [
-    			$this->loginUsername() => 'required', 'password' => 'required',
-    	]);
-    }
-    */
 
     /**
      * Create a new user instance after a valid registration.
@@ -90,5 +84,30 @@ class AuthController extends Controller
     {
     	Auth::logout();
     	return Redirect::to('login');
+    }
+    
+    public function getSocialAuth($provider = null)
+    {
+    	return Socialite::with($provider)->redirect();	
+    }
+    
+    public function getSocialAuthCallback($provider = null)
+    {
+    	try {  	
+    		$user = Socialite::with($provider)->user();
+    		
+    		# userData
+    		$create['name'] = $user->name;
+    		$create['email'] = $user->email;   	
+    		$create['facebook_id'] = $user->id;
+ 
+    		$userModel = new User;
+    		$createdUser = $userModel->addNew($create);  
+    		
+    		Auth::loginUsingId($createdUser->id);
+    		return Redirect::to('workbench');	
+    	} catch (Exception $e) {
+    		return Redirect::to('login/facebook');
+    	}
     }
 }

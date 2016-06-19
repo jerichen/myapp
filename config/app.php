@@ -158,6 +158,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     		
+    	// 其他服務提供者...
+    	Laravel\Socialite\SocialiteServiceProvider::class,
     	Yuansir\Toastr\ToastrServiceProvider::class,
 
     ],
@@ -206,6 +208,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
     		
+    	// 其他服務提供者...
+    	'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     	'Toastr' => Yuansir\Toastr\Facades\Toastr::class,
 
     ],

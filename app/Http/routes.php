@@ -35,3 +35,14 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 Route::get('register', 'Auth\AuthController@getRegister');
 Route::post('register', 'Auth\AuthController@postRegister');
 
+// Social Login
+Route::get('/login/{provider?}',[
+	'uses' => 'Auth\AuthController@getSocialAuth',
+	'as'   => 'auth.getSocialAuth'
+]);
+
+Route::get('/login/callback/{provider?}',[
+	'uses' => 'Auth\AuthController@getSocialAuthCallback',
+	'as'   => 'auth.getSocialAuthCallback'
+]);
+
