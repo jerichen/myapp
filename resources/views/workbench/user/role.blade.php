@@ -24,6 +24,13 @@
               		    <h3 class="box-title">{{ $menuData->name }} Table</h3>
               		    
               		    <div class="box-tools">
+              		    	<div class="pull-right">
+	              		    	<button type="button" class="btn btn-success btn-sm" id="add-btn" onclick="formReset()"><i class="fa fa-times-circle"></i> New</button>
+								<button type="button" class="btn btn-danger btn-sm" id="del-btn" data-toggle="modal" data-target="#confirmDelete" data-title="Delete User" data-message="您確定刪除嘛 ?">
+								<i class="fa fa-minus"></i> Delete
+								</button>
+              		    	</div>
+              		    	
 	                		<div class="input-group input-group-sm" style="width: 150px;">
 		                  		<input type="text" id="search" class="form-control pull-right" placeholder="Search">
 		                  		<div class="input-group-btn">
@@ -33,7 +40,7 @@
               			</div>
             		</div>
 					<div class="box-body">
-						<table class="table table-striped">
+						<table class="table table-striped table-hover" id="roleTable">
 							<tr>
 								<th> # </th>
 								<th>Name</th>

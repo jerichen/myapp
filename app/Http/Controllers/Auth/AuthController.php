@@ -7,9 +7,10 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Lang;
 
-// social
 use Laravel\Socialite\Facades\Socialite;
+use Yuansir\Toastr\Facades\Toastr;
 
 use Auth;
 use Redirect;
@@ -84,6 +85,16 @@ class AuthController extends Controller
     {
     	Auth::logout();
     	return Redirect::to('login');
+    }
+    
+    protected function getFailedLoginMessage()
+    {
+        $message =  Lang::has('auth.failed')
+            ? Lang::get('auth.failed')
+            : 'These credentials do not match our records.';
+        
+        Toastr::error($message,'Alert');
+        return $message;
     }
     
     public function getSocialAuth($provider = null)
