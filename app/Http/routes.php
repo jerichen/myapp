@@ -16,6 +16,9 @@ Route::group(['middleware' => 'auth'], function () {
 	# sub
 	Route::get('workbench/{sub?}','SubController@sub');
 	Route::get('workbench/{sub}/{parent?}','SubController@parent');
+	
+	# user
+	Route::put('workbench/{sub}/{parent?}','ActionController@index');
 });
 
 // Authentication routes...

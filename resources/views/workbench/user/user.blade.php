@@ -91,8 +91,11 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div" style="display:none">
-					<form id="userForm" method="post" action="{{ url('/') }}">
+					<form id="userForm" method="post" action="{{ url('/workbench/user/user') }}">
 						<div class="box-header with-border">
+							<input type="text" name="_token" value="{{ csrf_token() }}">
+							<input type="text" id="_method" name="_method">
+							
 							<h3 class="box-title" id="userName">New User</h3>
 						
     						<div class="box-tools pull-right" id="edit-div" style="display:none">
@@ -220,9 +223,9 @@ $(document).ready(function() {
         },
         submitHandler: function (form) {
         	form.submit();
-			/*
+
         	var options = {  
-    			url: 'recommend_process.php', 
+    			url: '/workbench/ajax/saveUser', 
     		    type: 'POST',
     		    dataType:'json', 
     		    success  : function(responseText, statusText, xhr, $form)  {
@@ -231,12 +234,6 @@ $(document).ready(function() {
     				} else {
     					alert('Success');
     	 				window.location.reload();
-
-    	 				$('#success-dialog').modal({
-    						toggle: true,
-    					});
-    					
-    				    $('#success-dialog').dialog('open');
     				}
     			},
     			error: function(){
@@ -245,7 +242,6 @@ $(document).ready(function() {
     		};
 
     		form.ajaxForm(options);
-    		*/
         }
 	});
 });	
@@ -351,6 +347,7 @@ $(function() {
 	});
 
 	$('#save-div').click(function(e) {
+		$('#_method').val('PUT');
         $('#userForm').submit();
         e.preventDefault();
     });
