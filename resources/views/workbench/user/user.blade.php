@@ -91,11 +91,10 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div" style="display:none">
-					<form id="userForm" method="post" action="{{ url('/workbench/user/user') }}">
+					<form id="userForm">
 						<div class="box-header with-border">
 							<input type="text" name="_token" value="{{ csrf_token() }}">
-							<input type="text" id="_method" name="_method">
-							
+
 							<h3 class="box-title" id="userName">New User</h3>
 						
     						<div class="box-tools pull-right" id="edit-div" style="display:none">
@@ -222,8 +221,27 @@ $(document).ready(function() {
             error.fadeOut(3000, function() { $(this).remove(); });
         },
         submitHandler: function (form) {
-        	form.submit();
+//         	form.submit();
 
+			$.ajax({
+                type: 'POST',
+                url: '/workbench/ajax/saveUser', 
+                data: $('#form').serialize(),
+                success  : function(responseText, statusText, xhr, $form)  {
+    				if ( responseText.error == 1 ) {
+    					alert(responseText.message);				
+    				} else {
+    					alert('Success');
+    	 				window.location.reload();
+    				}
+    			},
+    			error: function(){
+    				alert("failure");
+    			}
+
+            });
+
+			/*
         	var options = {  
     			url: '/workbench/ajax/saveUser', 
     		    type: 'POST',
@@ -240,8 +258,8 @@ $(document).ready(function() {
     				alert("failure");
     			}
     		};
-
     		form.ajaxForm(options);
+    		*/
         }
 	});
 });	
@@ -347,7 +365,6 @@ $(function() {
 	});
 
 	$('#save-div').click(function(e) {
-		$('#_method').val('PUT');
         $('#userForm').submit();
         e.preventDefault();
     });
