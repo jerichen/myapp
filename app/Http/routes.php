@@ -17,8 +17,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('workbench/{sub?}','SubController@sub');
 	Route::get('workbench/{sub}/{parent?}','SubController@parent');
 	
-	# user
-	Route::put('workbench/{sub}/{parent?}','ActionController@index');
+	# create
+	Route::post('workbench/{sub}/{parent?}','CreateController@index');
+	
+	# update
+	Route::put('workbench/{sub}/{parent?}','UpdateController@index');
+	
+	# delete
+	Route::delete('workbench/{sub}/{parent?}','DestroyController@index');
 });
 
 // Authentication routes...

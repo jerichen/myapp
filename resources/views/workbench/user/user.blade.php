@@ -1,6 +1,7 @@
 @extends('workbench.index')
 
 @section('sub_content')
+
 <section class="content-header">
 	<h1>
 		<i class="fa fa-file-text-o"></i>
@@ -94,6 +95,7 @@
 					<form id="userForm">
 						<div class="box-header with-border">
 							<input type="text" name="_token" value="{{ csrf_token() }}">
+							<input type="text" id="_method" name="_method">
 
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -132,6 +134,17 @@
     									                  	<input type="password" class="form-control user-input" id="password" name="password" placeholder="Password">
     									                </div>
     	              								</div>
+    	              							</div>
+    	              							<div class="col-md-6">
+    	              								<label for="name">Role</label>
+    	              								@foreach($roles as $key => $val)
+    	              								<div class="radio">
+								                    	<label>
+									                      	<input type="radio" name="rolesRadios" id="rolesRadios" value="{{ $val->id }}" disabled>
+									                      	{{ $val->name }}
+								                    	</label>
+								                  	</div>
+								                  	@endforeach
     	              							</div>
     	              						</div>
     	              					</div>
@@ -224,42 +237,22 @@ $(document).ready(function() {
 //         	form.submit();
 
 			$.ajax({
-                type: 'POST',
-                url: '/workbench/ajax/saveUser', 
-                data: $('#form').serialize(),
-                success  : function(responseText, statusText, xhr, $form)  {
+				type: 'POST',
+                url: '/workbench/user/user', 
+		        data: $(form).serialize(),
+		        dataType : 'json',
+		        success  : function(responseText, statusText, xhr, $form)  {
     				if ( responseText.error == 1 ) {
-    					alert(responseText.message);				
+        				toastr.error(responseText.message);			
     				} else {
-    					alert('Success');
+    					toastr.success('Success');	
     	 				window.location.reload();
     				}
     			},
     			error: function(){
-    				alert("failure");
+    				toastr.error(responseText.message);	
     			}
-
-            });
-
-			/*
-        	var options = {  
-    			url: '/workbench/ajax/saveUser', 
-    		    type: 'POST',
-    		    dataType:'json', 
-    		    success  : function(responseText, statusText, xhr, $form)  {
-    				if ( responseText.error == 1 ) {
-    					alert(responseText.message);				
-    				} else {
-    					alert('Success');
-    	 				window.location.reload();
-    				}
-    			},
-    			error: function(){
-    				alert("failure");
-    			}
-    		};
-    		form.ajaxForm(options);
-    		*/
+		    });
         }
 	});
 });	
@@ -276,18 +269,6 @@ function addDisabled(){
 function removeDisabled(){
 	document.getElementById('user-image').disabled = false;
 	$('.user-input').removeAttr('disabled');
-}
-
-function userData(user_id){
-    var _url = '/workbench/ajax/getUser?id=' + user_id;
-    $.getJSON(_url, function(data) {
-    	$('#userName').text('View User [ " + data.user.name + " ]');
-    	$('#user_id').val(data.user.id);
-    	$('#name').val(data.user.name);
-    	$('#email').val(data.user.email);
-
-    	$('input[type=radio][value=" + data.role.id + "]').prop('checked',true);
-    });
 }
 
 $(function() {
@@ -323,7 +304,10 @@ $(function() {
 	    	$('#password').val(data.user.password);
 	    	$('#action').val('edit');
 
-	    	$('input[type=radio][value=' + data.role.id + ']').prop('checked',true);
+	    	$('input[name="rolesRadios"]').removeAttr('checked');
+	    	if(data.role != null){
+	    		$('input[id=rolesRadios][value=' + data.role.id + ']').prop('checked',true);
+	    	}
 	    });
 
 	    addDisabled();
@@ -333,6 +317,7 @@ $(function() {
 	});
 
 	$('#edit-btn').click(function(e) {
+		$('#_method').val('PUT');
 		$('#action').val('edit');
 		document.getElementById('user-image').disabled = false;
 		$('.user-input').removeAttr('disabled');
@@ -343,6 +328,7 @@ $(function() {
 	});
 
 	$('#add-btn').click(function(e) {
+		$('#_method').val('POST');
 		$('#userName').text('New User');
 		$('#action').val('add');
 		removeDisabled();
@@ -374,6 +360,7 @@ $(function() {
 <!-- Dialog show event handler -->
 <script type="text/javascript">
 $("#del-btn").on('click', function(e) {
+	$('#_method').val('DELETE');
 	var id =$('#userTable tr[class="highlighted"] td:first').text();
 	if(id == ''){
 		toastr.warning('請選擇一筆。');
