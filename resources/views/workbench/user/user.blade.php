@@ -140,7 +140,7 @@
     	              								@foreach($roles as $key => $val)
     	              								<div class="radio">
 								                    	<label>
-									                      	<input type="radio" name="rolesRadios" id="rolesRadios" value="{{ $val->id }}" disabled>
+									                      	<input type="radio" name="rolesRadios" id="rolesRadios" value="{{ $val->id }}">
 									                      	{{ $val->name }}
 								                    	</label>
 								                  	</div>
@@ -245,8 +245,9 @@ $(document).ready(function() {
     				if ( responseText.error == 1 ) {
         				toastr.error(responseText.message);			
     				} else {
-    					toastr.success('Success');	
-    	 				window.location.reload();
+    					removeDisabled
+    					toastr.success('Success');
+    					setTimeout(window.location.reload.bind(window.location), 3500);
     				}
     			},
     			error: function(){
@@ -264,11 +265,13 @@ function formReset(){
 function addDisabled(){
 	document.getElementById('user-image').disabled = true;
 	$('.user-input').prop('disabled','disabled');
+	$('input[name="rolesRadios"]').prop('disabled','disabled');
 }
 
 function removeDisabled(){
 	document.getElementById('user-image').disabled = false;
 	$('.user-input').removeAttr('disabled');
+	$('input[name="rolesRadios"]').removeAttr('disabled');
 }
 
 $(function() {

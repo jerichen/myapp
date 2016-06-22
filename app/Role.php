@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Role extends Model
 {
@@ -15,5 +16,12 @@ class Role extends Model
 	public function givePermissionTo($permission)
 	{
 		return $this->permissions()->save($permission);
+	}
+	
+	// 新增role user
+	public function insertRoleUser($user_id,$role_id)
+	{
+	    $param = array($user_id,$role_id);
+	    DB::insert('insert into role_user (user_id,role_id) values (?, ?)', $param);
 	}
 }

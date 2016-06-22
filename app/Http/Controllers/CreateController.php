@@ -1,18 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use Redirect;
-
 use Validator;
-
 use Yuansir\Toastr\Facades\Toastr;
 
 use App\User;
+use App\Role;
 
 class CreateController extends Controller
 {
@@ -34,11 +30,15 @@ class CreateController extends Controller
 	{
 		$create['name'] = $post['name'];
 		$create['email'] = $post['email'];
-		$create['password'] = bcrypt($post['password']);
-		
+		$create['password'] = bcrypt($post['password']);		
+
 		$check = User::where('email',$post['email'])->first();
-		if(is_null($check)){
-			User::create($create);
+		if(is_null($check)){			
+		    $createdUser = User::create($create);	
+		    var_dump($createdUser->id);
+			$roleModel = new Role;
+			$roleModel->insertRoleUser($createdUser->id,$post['rolesRadios']);
+
 			$result['error'] = 0;
 			return $result;
 		}else{
