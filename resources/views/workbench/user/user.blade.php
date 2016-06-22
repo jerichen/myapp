@@ -94,8 +94,8 @@
 				<div class="box box-warning" id="post-div" style="display:none">
 					<form id="userForm">
 						<div class="box-header with-border">
-							<input type="text" name="_token" value="{{ csrf_token() }}">
-							<input type="text" id="_method" name="_method">
+							<input type="hidden" name="_token" value="{{ csrf_token() }}">
+							<input type="hidden" id="_method" name="_method">
 
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -119,8 +119,8 @@
     	              							<div class="col-md-6">
     	              								<div class="box-body">
                                                         <div class="form-group">
-    						                				<input type="hidden" class="form-control" id="user_id" disabled>
-    						                				<input type="hidden" class="form-control" id="action" disabled>
+    						                				<input type="hidden" class="form-control" id="user_id" name="user_id">
+    						                				<input type="hidden" class="form-control" id="action">
     						                				
     						                				<label for="name">Name</label>
     	                  									<input type="text" class="form-control user-input" id="name" name="name" placeholder="Enter Name">
@@ -234,8 +234,6 @@ $(document).ready(function() {
             error.fadeOut(3000, function() { $(this).remove(); });
         },
         submitHandler: function (form) {
-//         	form.submit();
-
 			$.ajax({
 				type: 'POST',
                 url: '/workbench/user/user', 
@@ -322,8 +320,7 @@ $(function() {
 	$('#edit-btn').click(function(e) {
 		$('#_method').val('PUT');
 		$('#action').val('edit');
-		document.getElementById('user-image').disabled = false;
-		$('.user-input').removeAttr('disabled');
+		removeDisabled();
 		$('#edit-div').hide();
 		$('#save-div').show();
 
@@ -387,16 +384,25 @@ $("#del-btn").on('click', function(e) {
 
 <!-- Form confirm (yes/ok) handler, submits form -->
 $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
+	$('#confirmDelete').modal('hide');
 	var id = $('#userTable tr[class="highlighted"] td:first').text();
-// 	var del_url = '{{ (url('/user/delete')) }}';
-// 	var del_url = '{{ url('/workbench/user/user/delete') }}';
-// 	del_url = del_url + '/' + id;
-// 	removeBtn = $('#confirmDelete').find('.modal-footer #confirm');
-// 	removeBtn.attr('href', del_url);
-	
-//     e.preventDefault();
-
-	$(this).data('form').submit();
+	$.ajax({
+		type: 'POST',
+        url: '/workbench/user/user', 
+        data: $('#userForm').serialize(),
+        dataType : 'json',
+        success  : function(responseText, statusText, xhr, $form)  {
+			if ( responseText.error == 1 ) {
+				toastr.error(responseText.message);			
+			} else {
+				toastr.success('Success');
+				setTimeout(window.location.reload.bind(window.location), 3500);
+			}
+		},
+		error: function(){
+			toastr.error(responseText.message);	
+		}
+    });
 });
 </script>
 

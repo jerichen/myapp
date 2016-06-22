@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Lang;
+use Exception;
 
 use Laravel\Socialite\Facades\Socialite;
 use Yuansir\Toastr\Facades\Toastr;

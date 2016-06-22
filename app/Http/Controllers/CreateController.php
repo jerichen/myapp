@@ -35,9 +35,8 @@ class CreateController extends Controller
 		$check = User::where('email',$post['email'])->first();
 		if(is_null($check)){			
 		    $createdUser = User::create($create);	
-		    var_dump($createdUser->id);
 			$roleModel = new Role;
-			$roleModel->insertRoleUser($createdUser->id,$post['rolesRadios']);
+			$roleModel->updateRoleUser($createdUser->id,$post['rolesRadios']);
 
 			$result['error'] = 0;
 			return $result;
