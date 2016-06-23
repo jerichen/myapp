@@ -29,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
  
         # 重新php artisan migrate時，先註解
+        /*
         $permissions = Permission::with('roles')->get();
         foreach ($permissions as $permission) {
         	$gate->define($permission->menu_id, function($user,$menu_permission) use ($permission) {
@@ -38,5 +39,6 @@ class AuthServiceProvider extends ServiceProvider
 	        	}
         	});
         }
+        */
     }
 }

@@ -155,8 +155,15 @@
     					                		<div class="col-md-6">
     							                	<div class="form-group">
     								                	<label for="images">File input</label>
-    								                  	<input type="file" id="user-image">
+    								                  	<input type="file" id="user-image" onchange="PreviewImage();">
     								                  	<p class="help-block">Example block-level help text here.</p>
+    								                  	
+    								                  	
+                                            	        <div class="form-group previewcontext">
+                                            		        <img id="picPreview" src="{{ URL::asset('bower_components/AdminLTE/dist/img/user2-160x160.jpg') }}" /><br>		                	
+                                            	        </div>
+                                                	  
+	   	
     								                </div>
     						                	</div>
     					                	</div>					                	
@@ -171,6 +178,12 @@
 		</section>
     </div>
 </section>
+
+<style type="text/css">
+.previewcontext img {
+    width:100px;
+}
+</style>
 
 @include('common.confirm')
 
@@ -255,6 +268,15 @@ $(document).ready(function() {
         }
 	});
 });	
+
+function PreviewImage() {
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("user-image").files[0]);
+
+    oFReader.onload = function (oFREvent) {
+        document.getElementById("picPreview").src = oFREvent.target.result;
+    };
+}
 
 function formReset(){
 	document.getElementById('userForm').reset()

@@ -11,11 +11,11 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('workbench','WorkbenchController@index');
     
+    # ajax
+    Route::get('workbench/ajax/{get?}','AjaxController@index');
+    
     Route::group(['middleware' => 'menu'], function () {
 
-    	# ajax
-    	Route::get('workbench/ajax/{get?}','AjaxController@index');
-    
     	# sub
     	Route::get('workbench/{sub?}','SubController@sub');
     	Route::get('workbench/{sub}/{parent?}','SubController@parent');
