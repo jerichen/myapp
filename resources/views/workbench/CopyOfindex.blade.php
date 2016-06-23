@@ -63,7 +63,7 @@
         	</div>
 		</div>
 		
-		<ul class="sidebar-menu" id="sidebar-menu">
+		<ul class="sidebar-menu">
 		
 			<li class="header">MAIN NAVIGATION</li>
         	@if(count($menus))
@@ -111,7 +111,7 @@
             		<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
           		</a>
           		<ul class="treeview-menu">
-            		<li><a href="/workbench/dashboard"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+            		<li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
             		<li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
           		</ul>
 			</li>
@@ -137,8 +137,8 @@
 	            <small class="label pull-right bg-yellow">12</small>
 	          	</a>
         	</li>
-        	<li id="dashboard" >
-        		<a href="/workbench/dashboard">
+        	<li>
+        		<a href="documentation/index.html">
         		<i class="fa fa-book"></i> 
         		<span>Documentation</span></a>
         	</li>
@@ -151,17 +151,4 @@
 	@yield('sub_content')
 </div>
 @endsection
-
-
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript">  
-$(document).ready(function() {	
-    var url = window.location.href; 
-    $('#sidebar-menu a').each(function() {
-        if(url == (this.href)) { 
-            $(this).closest('li').addClass('active');
-        }
-    });
-});
-</script>
 

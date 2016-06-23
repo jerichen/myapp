@@ -88,4 +88,11 @@ class WorkbenchController extends Controller
 
     	return view('workbench.index',compact('user','menus'));
     }
+    
+    public function documentation()
+    {
+    	$user = $this->user;
+    	$menus = $this->menus;
+    	return view('workbench.documentation',compact('user','menus'));
+    }
 }
