@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use Auth;
 
+use App\User;
+use App\Role;
 use App\Menu;
 use function League\Flysystem\getMetadata;
 
@@ -15,18 +17,35 @@ use Yuansir\Toastr\Facades\Toastr;
 
 class PermissionController extends Controller
 {
-	public function getMenus()
+	protected function getMenus($userID)
 	{
-		# menus
-		$menus = Menu::where('parent_id', 0)->get();
+	    $userRoles = User::find($userID)->roles;
+		$userPermissions = Role::find($userRoles[0]->id)->roles;
+		
+		$menu = array();
+		foreach ($userPermissions as $permission){
+		    $menu_permission_rows = unserialize($permission->menu_permission);
+		    if(in_array('view', $menu_permission_rows)){
+		        $menu = Menu::find($permission->menu_id);
+		        
+		        // 主層或副層
+		        if($menu->parent_id == 0){
+		            $menus[$menu->id] = $menu;
+		        }else{
+		            if (isset($var['test'])) {
+		                $menus[$menu->id]['sub'] = $menu;
+		            }  
+		        }
+		    }		    
+		}
+		
 		return $menus;
 	}
 	
 	public function index()
 	{
 		$user = Auth::loginUsingId(1);
-		$menus = $this->getMenus();
-
+		$menus = $this->getMenus($user->id);
 		return view('test',compact('user','menus'));
 	}
 	

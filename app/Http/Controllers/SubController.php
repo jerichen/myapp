@@ -29,15 +29,11 @@ class SubController extends WorkbenchController
 	{
 		$user = $this->user;
     	$menus = $this->menus;
-    	$menuData = $this->getMenuDataByUrl();
-    	
-    	# 判斷是否可view
-    	if($this->user->cannot($menuData->id,'view')) {
-    		return redirect('workbench');
-    	}
- 
+    	$menuData = $this->getMenuDataByUrl();    	
+    	$active_id = $menuData->id;
+
     	$return = 'workbench.' . $sub;
-    	return view($return,compact('user','menus','menuData'));
+    	return view($return,compact('user','menus','menuData','active_id'));
 	}
 	
 	# 第二層
@@ -46,15 +42,12 @@ class SubController extends WorkbenchController
 		$user = $this->user;
 		$menus = $this->menus;
 		$menuData = $this->getMenuDataByUrl();
-		
-		# 判斷是否可view
-		if($this->user->cannot($menuData->id,'view')) {
-			return redirect('workbench');
-		}
+		$active_id = $menuData->parent_id;
 
 		$result['user'] = $user;
 		$result['menus'] = $menus;
 		$result['menuData'] = $menuData;
+		$result['active_id'] = $active_id;
 
 		switch ($parent){
 			case 'role';

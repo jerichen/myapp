@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth;
-
 use Redirect;
 
+use App\User;
 use App\Menu;
-
 use App\Permission;
+use App\Role;
 
 class WorkbenchController extends Controller
 {
@@ -38,6 +38,7 @@ class WorkbenchController extends Controller
 	
 	public function getMenus()
 	{
+	    /*
 		# menus
 		$menus = Menu::where('parent_id', 0)->get();
 		 
@@ -51,6 +52,32 @@ class WorkbenchController extends Controller
 			$menus[$key]['sub'] = $sub;
 		}
 		
+		return $menus;
+		*/
+
+	    $user = Auth::user();
+		$userRoles = User::find($user->id)->roles;
+		$userPermissions = Role::find($userRoles[0]->id)->roles;
+		
+		$menu = array();
+		$sub = array();
+		foreach ($userPermissions as $permission){
+		    $menu_permission_rows = unserialize($permission->menu_permission);
+		    if(in_array('view', $menu_permission_rows)){
+		        $menu = Menu::find($permission->menu_id);
+		
+		        // 主層或副層
+		        if($menu->parent_id == 0){
+		            $menus[$menu->id] = $menu;
+		        }else{
+		            if (isset($menus[$menu->parent_id])) {
+		                $sub[] = $menu;
+		                $menus[$menu->parent_id]['sub'] = $sub;		                
+		            }
+		        }
+		    }
+		}
+
 		return $menus;
 	}
 	

@@ -68,45 +68,45 @@
 			<li class="header">MAIN NAVIGATION</li>
         	@if(count($menus))
         		@foreach($menus as $menu)
-        		@can($menu->id,'view')
-        		
-        		@if(!empty($menuData) && ($menu->id == $menuData->parent_id))
-        		<li class="active">
-        		@else
-        		<li>
-        		@endif
-        		
-        			<a href="{{ $menu->url }}">
-	        			<i class="{{ $menu->icon }}"></i> 
-	        			<span>{{ $menu->name }}</span>
-	        			@if($menu->has_sub == 1)
-		        		<i class="fa fa-angle-left pull-right"></i>
-		        		@endif
-        			</a>
-        			
-        			@if($menu->has_sub == 1)
-        			<ul class="treeview-menu">
-        				@foreach($menu->sub as $sub)
-        				@can($sub->id,'view')
-        				<li>
-        					<a href="{{ $sub->url }}">
-			        			<i class="{{ $sub->icon }}"></i> 
-			        			<span>{{ $sub->name }}</span>
-		        			</a>
-        				</li>
-        				@endcan
-        				@endforeach
-	          		</ul>
-        			@endif
-        			
-        		</li>
-        		
-        		@endcan
+            		@if(!empty($menuData) && ($menu->id == $active_id))
+            		<li class="active">
+            		@else
+            		<li>
+            		@endif
+            		
+                		<a href="{{ $menu->url }}">
+    	        			<i class="{{ $menu->icon }}"></i> 
+    	        			<span>{{ $menu->name }}</span>
+    	        			@if($menu->has_sub == 1)
+    		        		<i class="fa fa-angle-left pull-right"></i>
+    		        		@endif
+            			</a>
+            			
+            			@if(count($menu->sub))
+            			<ul class="treeview-menu">
+            				@foreach($menu->sub as $sub)
+            				
+            				@if(!empty($menuData) && ($sub->id == $menuData->id))
+                    		<li class="active">
+                    		@else
+                    		<li>
+                    		@endif
+            				
+            					<a href="{{ $sub->url }}">
+    			        			<i class="{{ $sub->icon }}"></i> 
+    			        			<span>{{ $sub->name }}</span>
+    		        			</a>
+            				</li>
+            				@endforeach
+    	          		</ul>
+            			@endif
+            		
+            		</li>
         		@endforeach
         	@endif
         	
 			<li class="header">MAIN NAVIGATION</li>
-			<li class="active treeview">
+			<li class="active">
 				<a href="#">
             		<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
           		</a>

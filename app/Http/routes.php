@@ -8,23 +8,28 @@ Route::get('toastr','PermissionController@toastrTest');
 
 // 登入後
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('workbench','WorkbenchController@index');
-	
-	# ajax
-	Route::get('workbench/ajax/{get?}','AjaxController@index');
+    
+    Route::get('workbench','WorkbenchController@index');
+    
+    Route::group(['middleware' => 'menu'], function () {
 
-	# sub
-	Route::get('workbench/{sub?}','SubController@sub');
-	Route::get('workbench/{sub}/{parent?}','SubController@parent');
+    	# ajax
+    	Route::get('workbench/ajax/{get?}','AjaxController@index');
+    
+    	# sub
+    	Route::get('workbench/{sub?}','SubController@sub');
+    	Route::get('workbench/{sub}/{parent?}','SubController@parent');
+    	
+    	# create
+    	Route::post('workbench/{sub}/{parent?}','CreateController@index');
+    	
+    	# update
+    	Route::put('workbench/{sub}/{parent?}','UpdateController@index');
+    	
+    	# delete
+    	Route::delete('workbench/{sub}/{parent?}','DestroyController@index');
 	
-	# create
-	Route::post('workbench/{sub}/{parent?}','CreateController@index');
-	
-	# update
-	Route::put('workbench/{sub}/{parent?}','UpdateController@index');
-	
-	# delete
-	Route::delete('workbench/{sub}/{parent?}','DestroyController@index');
+	});
 });
 
 // Authentication routes...
