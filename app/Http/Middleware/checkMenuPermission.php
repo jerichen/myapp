@@ -14,6 +14,7 @@ class checkMenuPermission
 {
     /**
      * Handle an incoming request.
+     * 判斷是否有權限可看
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

@@ -51,7 +51,7 @@ class MenusTableSeeder extends Seeder
     			[
 	    			'id'          => 4,
 	    			'parent_id'   => 0,
-	    			'url'         => null,
+	    			'url'         => '/workbench/user',
 	    			'name'        => 'Users',
 	    			'description' => null,
 	    			'icon'        => 'fa fa-users',

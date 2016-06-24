@@ -63,56 +63,45 @@
         	</div>
 		</div>
 		
-		<ul class="sidebar-menu" id="sidebar-menu">
+		<ul class="sidebar-menu">
 		
 			<li class="header">MAIN NAVIGATION</li>
-        	@if(count($menus))
-        		@foreach($menus as $menu)
-            		@if(!empty($menuData) && ($menu->id == $active_id))
-            		<li class="active">
-            		@else
-            		<li>
-            		@endif
-            		
-                		<a href="{{ $menu->url }}">
-    	        			<i class="{{ $menu->icon }}"></i> 
-    	        			<span>{{ $menu->name }}</span>
-    	        			@if($menu->has_sub == 1)
-    		        		<i class="fa fa-angle-left pull-right"></i>
-    		        		@endif
-            			</a>
+			@if(count($menus))
+				@foreach($menus as $menu)
+				<li class="treeview">
+					<a href="{{ $menu->url }}">
+    	        		<i class="{{ $menu->icon }}"></i> 
+    	        		<span>{{ $menu->name }}</span>
+    	        		@if($menu->has_sub == 1)
+    		        	<i class="fa fa-angle-left pull-right"></i>
+    		        	@endif
+            		</a>
             			
-            			@if(count($menu->sub))
-            			<ul class="treeview-menu">
-            				@foreach($menu->sub as $sub)
-            				
-            				@if(!empty($menuData) && ($sub->id == $menuData->id))
-                    		<li class="active">
-                    		@else
-                    		<li>
-                    		@endif
-            				
-            					<a href="{{ $sub->url }}">
-    			        			<i class="{{ $sub->icon }}"></i> 
-    			        			<span>{{ $sub->name }}</span>
-    		        			</a>
-            				</li>
-            				@endforeach
-    	          		</ul>
-            			@endif
-            		
-            		</li>
-        		@endforeach
-        	@endif
-        	
+            		@if(count($menu->sub))
+            		<ul class="treeview-menu">
+            			@foreach($menu->sub as $sub)
+            			<li>
+            				<a href="{{ $sub->url }}">
+    			        		<i class="{{ $sub->icon }}"></i> 
+    			        		<span>{{ $sub->name }}</span>
+    		        		</a>
+            			</li>
+            			@endforeach
+            		</ul>
+            		@endif
+				</li>
+				@endforeach
+			@endif
+
 			<li class="header">MAIN NAVIGATION</li>
-			<li class="active">
-				<a href="#">
-            		<i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+			<li class="treeview">
+				<a href="/workbench/user">
+            		<i class="fa fa-dashboard"></i> <span>Dashboard</span> 
+            		<i class="fa fa-angle-left pull-right"></i>
           		</a>
           		<ul class="treeview-menu">
-            		<li><a href="/workbench/dashboard"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            		<li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            		<li><a href="/workbench/user/user"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+            		<li><a href="/workbench/user/role"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
           		</ul>
 			</li>
 			<li class="treeview">
@@ -125,23 +114,24 @@
 		            <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
           		</ul>
 			</li>
-			<li>
+			<li class="treeview">
 	          	<a href="pages/calendar.html">
 	            	<i class="fa fa-calendar"></i> <span>Calendar</span>
 	            	<small class="label pull-right bg-red">3</small>
 	          	</a>
         	</li>
-        	<li>
+        	<li class="treeview">
 	          	<a href="pages/mailbox/mailbox.html">
 	            <i class="fa fa-envelope"></i> <span>Mailbox</span>
 	            <small class="label pull-right bg-yellow">12</small>
 	          	</a>
         	</li>
-        	<li id="dashboard" >
+        	<li class="treeview">
         		<a href="/workbench/dashboard">
         		<i class="fa fa-book"></i> 
         		<span>Documentation</span></a>
         	</li>
+        	
 		</ul>
     </section>
 </aside>
@@ -157,10 +147,22 @@
 <script type="text/javascript">  
 $(document).ready(function() {	
     var url = window.location.href; 
-    $('#sidebar-menu a').each(function() {
-        if(url == (this.href)) { 
-            $(this).closest('li').addClass('active');
-        }
+    var activePage = url.substring(url.lastIndexOf('/')+1); // role
+    var activeLi = url.substring(0,url.lastIndexOf('/')); // /workbench/user
+
+
+    $('li.treeview a').each(function() {
+    	var li_href = this.href;
+    	if ((li_href == url) || (li_href == activeLi)) {
+    		$(this).parent().addClass('active'); 
+    	} 
+    });
+    
+    $('.treeview-menu li a').each(function() {
+    	var currentPage = this.href.substring(this.href.lastIndexOf('/')+1); // user 	
+    	if (activePage == currentPage) {
+    		$(this).parent().addClass('active'); 
+    	} 
     });
 });
 </script>

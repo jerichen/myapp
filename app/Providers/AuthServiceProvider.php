@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
  
-        # 重新php artisan migrate時，先註解
+        # 重新php artisan migrate時，先註解，已寫middleware所以暫拔掉
         /*
         $permissions = Permission::with('roles')->get();
         foreach ($permissions as $permission) {
