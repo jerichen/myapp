@@ -19,7 +19,6 @@ class CreateController extends Controller
 				$result['roles'] = $this->getRoles();
 			break;
 			case 'user';
-				var_dump($request->file('user_pic'));exit;
 				$result = $this->createUser($request->all());
 			break;
 		}

@@ -92,10 +92,10 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div" style="display:none">
-					<form id="userForm" method="post" enctype="multipart/form-data">
+					<form id="userForm" enctype="multipart/form-data">
 						<div class="box-header with-border">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}">
-							<input type="hidden" id="_method" name="_method">
+							<input type="text" id="_method" name="_method">
 
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -339,7 +339,9 @@ $(function() {
 		e.preventDefault();
 	});
 
+	// TODO 有問題會post出去
 	$('#cancel-btn').click(function(e) {
+		$('#_method').val('');
 		if($('#action').val() == 'add'){
 			$('#post-div').hide();
 		}	

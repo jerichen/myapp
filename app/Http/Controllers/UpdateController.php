@@ -20,14 +20,18 @@ class UpdateController extends Controller
 				$result['roles'] = $this->getRoles();
 			break;
 			case 'user';
-				$result = $this->updateUser($request->all());
+				if ($request->file('user_pic')->isValid()) {
+					$file = $request->file('user_pic');
+				}
+				
+				$result = $this->updateUser($request->all(),$file);
 			break;
 		}
 	
 		return json_encode($result);
 	}
 	
-	protected function updateUser(array $post)
+	protected function updateUser(array $post, $file = null)
 	{
 		try {
 			$check = User::where('email',$post['email'])->where('id','!=',$post['user_id'])->first();
@@ -38,6 +42,18 @@ class UpdateController extends Controller
 				if($post['password'] != null){
 					$user->password = bcrypt($post['password']);
 				}
+				
+				# user pic
+				if($file->isValid()){
+					# TODO 要刪除原本的才不會一直長下去
+					$targetUrl = 'images/pic/';
+					$fileExt = $file->getClientOriginalExtension();
+					$fileName = time() . '.' . $fileExt;
+
+					$update = $file->move($targetUrl, $fileName);
+					$user->user_pic = '/' . $update->getPathname();
+				}
+				
 				$user->save();
 				
 				$roleModel = new Role;
