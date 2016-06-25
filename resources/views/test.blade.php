@@ -5,12 +5,12 @@
     </head>
     <body>
     	<h1>權限測試</h1>
-    	@foreach($menus as $menu)
-    	<p>
-    		@can($menu->id,'view')
-    		<a href="#">{{ $menu->name }}</a>
-    		@endcan
-    	</p>
-    	@endforeach
+    	<form action="" method="post" enctype="multipart/form-data">
+    		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+    		<input type="hidden" name="_method" value="PUT">
+    		
+    		<input type="submit" value="post">
+    		<input type="file" id="user-image" name="user-image">
+    	</form>
     </body>
 </html>

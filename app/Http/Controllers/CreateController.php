@@ -16,9 +16,10 @@ class CreateController extends Controller
 	{
 		switch ($parent){
 			case 'role';
-			$result['roles'] = $this->getRoles();
+				$result['roles'] = $this->getRoles();
 			break;
 			case 'user';
+				var_dump($request->file('user_pic'));exit;
 				$result = $this->createUser($request->all());
 			break;
 		}

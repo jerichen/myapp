@@ -92,7 +92,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="box box-warning" id="post-div" style="display:none">
-					<form id="userForm">
+					<form id="userForm" method="post" enctype="multipart/form-data">
 						<div class="box-header with-border">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}">
 							<input type="hidden" id="_method" name="_method">
@@ -155,15 +155,11 @@
     					                		<div class="col-md-6">
     							                	<div class="form-group">
     								                	<label for="images">File input</label>
-    								                  	<input type="file" id="user-image" onchange="PreviewImage();">
+    								                  	<input type="file" id="user_pic" name="user_pic" onchange="PreviewImage();">
     								                  	<p class="help-block">Example block-level help text here.</p>
-    								                  	
-    								                  	
                                             	        <div class="form-group previewcontext">
                                             		        <img id="picPreview" src="{{ URL::asset('bower_components/AdminLTE/dist/img/user2-160x160.jpg') }}" /><br>		                	
                                             	        </div>
-                                                	  
-	   	
     								                </div>
     						                	</div>
     					                	</div>					                	
@@ -245,36 +241,16 @@ $(document).ready(function() {
             }
 
             error.fadeOut(3000, function() { $(this).remove(); });
-        },
-        submitHandler: function (form) {
-			$.ajax({
-				type: 'POST',
-                url: '/workbench/user/user', 
-		        data: $(form).serialize(),
-		        dataType : 'json',
-		        success  : function(responseText, statusText, xhr, $form)  {
-    				if ( responseText.error == 1 ) {
-        				toastr.error(responseText.message);			
-    				} else {
-    					removeDisabled
-    					toastr.success('Success');
-    					setTimeout(window.location.reload.bind(window.location), 3500);
-    				}
-    			},
-    			error: function(){
-    				toastr.error(responseText.message);	
-    			}
-		    });
         }
 	});
 });	
 
 function PreviewImage() {
     var oFReader = new FileReader();
-    oFReader.readAsDataURL(document.getElementById("user-image").files[0]);
+    oFReader.readAsDataURL(document.getElementById('user_pic').files[0]);
 
     oFReader.onload = function (oFREvent) {
-        document.getElementById("picPreview").src = oFREvent.target.result;
+        document.getElementById('picPreview').src = oFREvent.target.result;
     };
 }
 
@@ -283,13 +259,13 @@ function formReset(){
 }
 
 function addDisabled(){
-	document.getElementById('user-image').disabled = true;
+	document.getElementById('user_pic').disabled = true;
 	$('.user-input').prop('disabled','disabled');
 	$('input[name="rolesRadios"]').prop('disabled','disabled');
 }
 
 function removeDisabled(){
-	document.getElementById('user-image').disabled = false;
+	document.getElementById('user_pic').disabled = false;
 	$('.user-input').removeAttr('disabled');
 	$('input[name="rolesRadios"]').removeAttr('disabled');
 }
@@ -331,6 +307,8 @@ $(function() {
 	    	if(data.role != null){
 	    		$('input[id=rolesRadios][value=' + data.role.id + ']').prop('checked',true);
 	    	}
+
+	    	document.getElementById('picPreview').src = data.user.user_pic;
 	    });
 
 	    addDisabled();
@@ -376,6 +354,29 @@ $(function() {
         $('#userForm').submit();
         e.preventDefault();
     });
+
+	// Ajax Form
+	$('#userForm').ajaxForm({
+		type: 'POST',
+        url: '/workbench/user/user', 
+        data: $('#userForm').serialize(),
+		dataType : 'json',
+		beforeSubmit: function() {
+			return $('#userForm').valid();
+		},
+		success  : function(responseText, statusText, xhr, $form)  {
+			 if ( responseText.error == 1 ) {
+			 	toastr.error(responseText.message);	
+			 } else {
+			 	removeDisabled
+					toastr.success('Success');
+					setTimeout(window.location.reload.bind(window.location), 3500);
+			}
+		},
+		error: function(){
+			toastr.error(responseText.message);	
+		}
+	});
 });	
 </script>
 

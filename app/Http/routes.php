@@ -4,6 +4,8 @@ Route::get('/', function () {
 });
 
 Route::get('permission','PermissionController@index');
+Route::put('permission','PermissionController@getForm');
+
 Route::get('toastr','PermissionController@toastrTest');
 
 // 登入後

@@ -107,12 +107,13 @@ class AuthController extends Controller
     {
     	try {  	
     		$user = Socialite::with($provider)->user();
-    		
+  
     		# userData
     		$create['name'] = $user->name;
     		$create['email'] = $user->email;   	
     		$create['facebook_id'] = $user->id;
- 
+    		$create['user_pic'] = $user->avatar_original;
+
     		$userModel = new User;
     		$createdUser = $userModel->addNew($create);  
     		

@@ -44,9 +44,11 @@ class PermissionController extends Controller
 	
 	public function index()
 	{
-		$user = Auth::loginUsingId(1);
-		$menus = $this->getMenus($user->id);
-		return view('test',compact('user','menus'));
+// 		$user = Auth::loginUsingId(1);
+// 		$menus = $this->getMenus($user->id);
+// 		return view('test',compact('user','menus'));
+
+		return view('test');
 	}
 	
 	public function toastrTest()
@@ -54,5 +56,10 @@ class PermissionController extends Controller
 		$options = array('positionClass' => 'toast-top-left');
 		Toastr::error('Hello World!','TITLE',$options);
 		return view('home');
+	}
+	
+	public function getForm(Request $request)
+	{
+		var_dump($request->file('user-image'));exit;
 	}
 }

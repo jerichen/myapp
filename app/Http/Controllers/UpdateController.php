@@ -17,10 +17,10 @@ class UpdateController extends Controller
 	{
 		switch ($parent){
 			case 'role';
-			$result['roles'] = $this->getRoles();
+				$result['roles'] = $this->getRoles();
 			break;
 			case 'user';
-			$result = $this->updateUser($request->all());
+				$result = $this->updateUser($request->all());
 			break;
 		}
 	
