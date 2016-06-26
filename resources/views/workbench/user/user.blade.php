@@ -95,7 +95,7 @@
 					<form id="userForm" enctype="multipart/form-data">
 						<div class="box-header with-border">
 							<input type="hidden" name="_token" value="{{ csrf_token() }}">
-							<input type="text" id="_method" name="_method">
+							<input type="hidden" id="_method" name="_method">
 
 							<h3 class="box-title" id="userName">New User</h3>
 						
@@ -308,7 +308,14 @@ $(function() {
 	    		$('input[id=rolesRadios][value=' + data.role.id + ']').prop('checked',true);
 	    	}
 
-	    	document.getElementById('picPreview').src = data.user.user_pic;
+	    	var user_pic = data.user.user_pic;
+	    	if(user_pic.indexOf('http')!=-1){  
+	    		document.getElementById('picPreview').src = user_pic;
+	    	}else{
+	    		var url = '<?php echo URL::asset(''); ?>';
+		    	var user_pic = url + data.user.user_pic;
+	    		document.getElementById('picPreview').src = user_pic;
+	    	}
 	    });
 
 	    addDisabled();
@@ -339,9 +346,7 @@ $(function() {
 		e.preventDefault();
 	});
 
-	// TODO 有問題會post出去
 	$('#cancel-btn').click(function(e) {
-		$('#_method').val('');
 		if($('#action').val() == 'add'){
 			$('#post-div').hide();
 		}	
@@ -349,7 +354,7 @@ $(function() {
 		addDisabled();
 		$('#save-div').hide();
 		$('#edit-div').show();
-		e.preventDefault();
+		return false;
 	});
 
 	$('#save-div').click(function(e) {

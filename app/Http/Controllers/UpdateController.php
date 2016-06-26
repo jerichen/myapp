@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Exception;
+use Illuminate\Support\Facades\File;
 
 use App\User;
 use App\Role;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateController extends Controller
 {
@@ -49,9 +51,11 @@ class UpdateController extends Controller
 					$targetUrl = 'images/pic/';
 					$fileExt = $file->getClientOriginalExtension();
 					$fileName = time() . '.' . $fileExt;
-
+					
+					$oldUserPic = $user->user_pic;
+					File::delete($oldUserPic);
 					$update = $file->move($targetUrl, $fileName);
-					$user->user_pic = '/' . $update->getPathname();
+					$user->user_pic = $update->getPathname();
 				}
 				
 				$user->save();

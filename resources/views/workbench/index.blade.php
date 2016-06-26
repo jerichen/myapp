@@ -21,13 +21,13 @@
 	    		<!-- User Account: style can be found in dropdown.less -->
 	          	<li class="dropdown user user-menu">
 	          		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-	            		<img src="{{ $user->user_pic }}" class="user-image" alt="User Image">
+	            		<img src="{{ URL::asset($user->user_pic) }}" class="user-image" alt="User Image">
 				        <span class="hidden-xs">{{ $user->name }}</span>
 	            	</a>
 	            	<ul class="dropdown-menu">
 	            		<!-- User image -->
 	              		<li class="user-header">
-	                		<img src="{{ $user->user_pic }}" class="img-circle" alt="User Image">
+	                		<img src="{{ URL::asset($user->user_pic) }}" class="img-circle" alt="User Image">
 	                		<p>
 		                  		{{ $user->name }} - Web Developer
 		                  		<small>Member since Nov. 2012</small>
@@ -56,7 +56,7 @@
     	<!-- Sidebar user panel -->
 		<div class="user-panel">
 			<div class="pull-left image">
-          		<img src="{{ $user->user_pic }}" class="img-circle" alt="User Image">
+          		<img src="{{ URL::asset($user->user_pic) }}" class="img-circle" alt="User Image">
         	</div>
         	<div class="pull-left info">
 	          	<p>{{ $user->name }}</p>
