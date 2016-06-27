@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth;
+use Redis;
 
 use App\User;
 use App\Role;
@@ -47,6 +48,14 @@ class PermissionController extends Controller
 // 		$user = Auth::loginUsingId(1);
 // 		$menus = $this->getMenus($user->id);
 // 		return view('test',compact('user','menus'));
+
+		Redis::set('hello_world', 'Hi from php!');
+		$val = Redis::get('hello_world');
+		var_dump($val);
+		
+		echo (Redis::exists('Santa Claus')) ? 'true' : 'false';
+		exit;
+		
 
 		return view('test');
 	}
