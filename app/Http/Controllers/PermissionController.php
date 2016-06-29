@@ -49,6 +49,19 @@ class PermissionController extends Controller
 // 		$menus = $this->getMenus($user->id);
 // 		return view('test',compact('user','menus'));
 
+		/*
+		$arr = array('Title','Content','Jeri',time());
+		$serializePost = serialize($arr);
+		$postId = Redis::incr('posts:count');
+		Redis::set('posts:' . $postId . ':data',$serializePost);
+		$keys = Redis::keys('*');
+		*/
+		
+		$data = Redis::get('posts:2:data');
+		$data = unserialize($data);
+		$count = Redis::incr('posts:2:page.view');
+		var_dump($data);exit;
+
 		Redis::set('hello_world', 'Hi from php!');
 		$val = Redis::get('hello_world');
 		var_dump($val);
