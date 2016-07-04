@@ -55,20 +55,21 @@ class PermissionController extends Controller
 		$postId = Redis::incr('posts:count');
 		Redis::set('posts:' . $postId . ':data',$serializePost);
 		$keys = Redis::keys('*');
-		*/
+
 		
 		$data = Redis::get('posts:2:data');
 		$data = unserialize($data);
 		$count = Redis::incr('posts:2:page.view');
 		var_dump($data);exit;
-
-		Redis::set('hello_world', 'Hi from php!');
-		$val = Redis::get('hello_world');
-		var_dump($val);
+		*/
 		
-		echo (Redis::exists('Santa Claus')) ? 'true' : 'false';
-		exit;
+		$postsPerPage = 10;
+		$lastPostID = 46;
+		$currentPage = 1;
+		$start = $lastPostID - ($currentPage - 1) * $postsPerPage;
+		$end = max($lastPostID - $currentPage * $postsPerPage + 1, 1);
 		
+		var_dump('start:' . $start . '~' . 'end:' . $end);exit;
 
 		return view('test');
 	}

@@ -189,7 +189,6 @@ td {
 }
 tr.highlighted td {
 	background: #d0d0d0;
-	font-weight: bold;
 }	
 </style>
 

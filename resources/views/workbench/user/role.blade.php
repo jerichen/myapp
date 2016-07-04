@@ -30,8 +30,8 @@
 								<i class="fa fa-minus"></i> Delete
 								</button>
               		    	</div>
-              		    	
-	                		<div class="input-group input-group-sm" style="width: 150px;">
+              		    
+	                		<div class="input-group input-group-sm pull-left" style="width: 150px;">
 		                  		<input type="text" id="search" class="form-control pull-right" placeholder="Search">
 		                  		<div class="input-group-btn">
 		                    		<button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -40,15 +40,15 @@
               			</div>
             		</div>
 					<div class="box-body">
-						<table class="table table-striped table-hover" id="roleTable">
+						<table class="table table-hover" id="roleTable">
 							<tr>
 								<th> # </th>
 								<th>Name</th>
 							</tr>
-							@foreach($roles as $key => $role)
-							<tr>
+							@foreach($roles as $key => $val)
+							<tr id="{{ $val->id }}">
 								<td>{{ $key + 1 }}</td>
-								<td>{{ $role->name }}</td>
+								<td>{{ $val->name }}</td>
 							</tr>
 							@endforeach
 						</table>
@@ -84,9 +84,61 @@
 	            	</div>
 				</div>
 			</div>
+			<div class="col-md-12">
+				<div class="box box-warning" id="post-div">
+					<form id="roleForm">
+						<div class="box-header with-border">
+							<input type="hidden" name="_token" value="{{ csrf_token() }}">
+							<input type="hidden" id="_method" name="_method">
+
+							<h3 class="box-title" id="roleName">New Role</h3>
+							
+							<div class="box-tools pull-right" id="edit-div" style="display:none">
+    							<button type="button" class="btn btn-primary btn-sm" id="edit-btn"><i class="fa fa-pencil-square"></i> Edit</button>
+              		    	</div>
+              		    	<div class="box-tools pull-right" id="save-div">
+    							<button type="button" class="btn btn-primary btn-sm" id="save-btn"><i class="fa fa-floppy-o"></i> Save</button>
+    							<button type="button" class="btn btn-default btn-sm" id="cancel-btn"><i class="fa fa-times-circle"></i> Cancel</button>
+              		    	</div>
+              		    	<div class="box-body">
+              		    		<div class="row">
+              		    			<div class="col-md-6">
+	    	              				<div class="box-body">
+	    	              					<div class="form-group">
+    						                	<input type="hidden" class="form-control" id="role_id" name="role_id">
+    						                	<input type="hidden" class="form-control" id="action">
+    						                				
+    						                	<label for="name">Name</label>
+    	                  						<input type="text" class="form-control user-input" id="name" name="name" placeholder="Enter Name">
+    						                </div>
+    						                <div class="form-group">
+    						                	<label for="email">Label</label>
+    						                	<input type="text" class="form-control user-input" id="label" name="label" placeholder="Enter Label">  						                	
+    						                </div>
+	    	              				</div>
+    	              				</div>
+    	              				<div class="col-md-6">
+    	              				</div>
+              		    		</div>
+              		    	</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</section>
     </div>
 </section>
+
+@include('common.confirm')
+
+<style>
+td {
+	cursor:pointer;
+}
+tr.highlighted td {
+	background: #d0d0d0;
+}	
+</style>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
@@ -107,6 +159,19 @@ $(function() {
 	        }
 	    });
 	});
+
+	$('#roleTable tr').click(function(e) {
+		$('#roleTable tr').removeClass('highlighted');
+	    $(this).addClass('highlighted');
+
+	    <!-- 取得role資料 -->
+	    var role_id = $(this).prop('id');
+	    var _url = "/workbench/ajax/getRole?id=" + role_id;
+	    $.getJSON(_url, function(data) {
+	    	console.log(data);exit;
+	    });	
+	    e.preventDefault();
+	});	
 });	
 </script>
 @endsection
