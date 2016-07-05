@@ -52,6 +52,7 @@ class SubController extends WorkbenchController
 		switch ($parent){
 			case 'role';
 				$result['roles'] = $this->getRoles();
+				$result['modules'] = $this->getModules();
 			break;
 			case 'user';
 				$roles = Role::all();
@@ -68,13 +69,20 @@ class SubController extends WorkbenchController
 		return view($return,$result);
 	}
 	
-	public function getRoles()
+	protected function getRoles()
 	{
 		$roles = Role::paginate(10);
 		return $roles;
 	}
 	
-	public function getUsers()
+	protected function getModules()
+	{
+		$menuModel = new Menu;
+		$menus = $menuModel->getModules();
+		return $menus;
+	}
+	
+	protected function getUsers()
 	{
 		$userDao = new User();
 		$users = $userDao->getUsers();

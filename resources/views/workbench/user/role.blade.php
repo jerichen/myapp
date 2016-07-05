@@ -102,22 +102,45 @@
               		    	</div>
               		    	<div class="box-body">
               		    		<div class="row">
-              		    			<div class="col-md-6">
+              		    			<div class="col-md-5">
 	    	              				<div class="box-body">
 	    	              					<div class="form-group">
     						                	<input type="hidden" class="form-control" id="role_id" name="role_id">
     						                	<input type="hidden" class="form-control" id="action">
     						                				
     						                	<label for="name">Name</label>
-    	                  						<input type="text" class="form-control user-input" id="name" name="name" placeholder="Enter Name">
+    	                  						<input type="text" class="form-control role-input" id="name" name="name" placeholder="Enter Name">
     						                </div>
     						                <div class="form-group">
     						                	<label for="email">Label</label>
-    						                	<input type="text" class="form-control user-input" id="label" name="label" placeholder="Enter Label">  						                	
+    						                	<input type="text" class="form-control role-input" id="label" name="label" placeholder="Enter Label">  						                	
     						                </div>
 	    	              				</div>
     	              				</div>
-    	              				<div class="col-md-6">
+    	              				<div class="col-md-2">
+    	              					<label for="modules">Modules</label>
+    	              					<div>User</div>
+    	              				</div>
+    	              				<div class="col-md-4">
+    	              					<label for="permissions">Permissions</label>
+					                  	<div class="form-group">
+					                  		<label>
+						                  		<input type="checkbox" class="minimal" checked>
+						                  		View
+						                	</label>
+						                	<label>
+						                  		<input type="checkbox" class="minimal">
+						                  		Create
+						                	</label>
+						                	<label>
+						                  		<input type="checkbox" class="minimal">
+						                  		Update
+						                	</label>
+						                	<label>
+						                  		<input type="checkbox" class="minimal">
+						                  		Delete
+						                	</label>
+					                  	</div>
     	              				</div>
               		    		</div>
               		    	</div>
@@ -142,6 +165,17 @@ tr.highlighted td {
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+function addDisabled(){
+	$('.role-input').prop('disabled','disabled');
+	//$('input[name="rolesRadios"]').prop('disabled','disabled');
+}
+
+function removeDisabled(){
+	document.getElementById('user_pic').disabled = false;
+	$('.role-input').removeAttr('disabled');
+	//$('input[name="rolesRadios"]').removeAttr('disabled');
+}
+
 $(function() {
 	$('#search').on('keyup', function() {
 	    var value = $(this).val();
@@ -168,6 +202,17 @@ $(function() {
 	    var role_id = $(this).prop('id');
 	    var _url = "/workbench/ajax/getRole?id=" + role_id;
 	    $.getJSON(_url, function(data) {
+	    	$('#roleName').text('View Role [ ' + data.role.name + ' ]');
+	    	$('#role_id').val(data.role.id);
+	    	$('#name').val(data.role.name);
+	    	$('#label').val(data.role.label);
+	    	$('#action').val('edit');
+
+	    	addDisabled();
+			$('#save-div').hide();
+			$('#edit-div').show();
+			$('#post-div').show();
+	    	
 	    	console.log(data);exit;
 	    });	
 	    e.preventDefault();

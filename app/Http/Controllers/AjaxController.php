@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User;
 use App\Role;
+use App\Menu;
 
 class AjaxController extends Controller
 {

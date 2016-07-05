@@ -136,7 +136,7 @@
     	              								</div>
     	              							</div>
     	              							<div class="col-md-6">
-    	              								<label for="name">Role</label>
+    	              								<label for="role">Role</label>
     	              								@foreach($roles as $key => $val)
     	              								<div class="radio">
 								                    	<label>
