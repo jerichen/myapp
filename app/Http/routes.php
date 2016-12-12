@@ -8,6 +8,9 @@ Route::put('permission','PermissionController@getForm');
 
 Route::get('toastr','PermissionController@toastrTest');
 
+// test vue.js
+Route::get('file','FileController@index');
+
 // 登入後
 Route::group(['middleware' => 'auth'], function () {
     
